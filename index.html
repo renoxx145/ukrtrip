@@ -641,7 +641,7 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
 <script>
 // ============ SUPABASE ============
 const SB_URL='https://tzpvaawuzspczevszxjn.supabase.co';
-const SB_KEY='sb_publishable_zbeffxcG0RBjnVIg-SiAPg_v6epZIFK';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6cHZhYXd1enNwY3pldnN6eGpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NDQxNTgsImV4cCI6MjA4OTAyMDE1OH0.GfJ9LEA5d3DQIMWOOWkPu6Q5kTDB37aoYg4kwkwi1Cw';
 const sb=supabase.createClient(SB_URL,SB_KEY);
 
 // ============ STATE ============
@@ -653,6 +653,7 @@ const DUK=['НЕД','ПОН','ВІВ','СЕР','ЧТВ','ПТН','СУБ'];
 
 // ============ INIT ============
 async function init(){
+  setTimeout(()=>hideLoad(),5000);
   fillCities();
   buildStrip();
   try{
