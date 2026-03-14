@@ -810,11 +810,16 @@ async function registerEmail(){
 async function loadProfile(){
   if(!CU)return;
   const{data}=await sb.from('users').select('*').eq('id',CU.id).single();
-  if(data){CP=data;}
-  else{
+  if(data){
+    CP=data;
+  } else {
     const name=CU.user_metadata?.full_name||'';
-    await sb.from('users').insert({id:CU.id,email:CU.email,full_name:name,avatar_url:CU.user_metadata?.avatar_url||''});
-    CP={id:CU.id,email:CU.email,full_name:name,role:'user'};
+    const avatar=CU.user_metadata?.avatar_url||'';
+    const{data:newUser}=await sb.from('users')
+      .insert({id:CU.id,email:CU.email,full_name:name,avatar_url:avatar,role:'user'})
+      .select()
+      .single();
+    CP=newUser||{id:CU.id,email:CU.email,full_name:name,role:'user'};
     if(!name)document.getElementById('name-ov').classList.add('open');
   }
   if(CP?.is_banned){toast('Ваш акаунт заблоковано','err');await sb.auth.signOut();}
