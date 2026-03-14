@@ -296,6 +296,7 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
     <button class="nav-btn" data-p="info" onclick="go('info')">Інформація</button>
     <button class="nav-btn" data-p="reviews" onclick="go('reviews')">Відгуки</button>
     <button class="nav-btn" data-p="contact" onclick="go('contact')">Зв'язок</button>
+    <button class="nav-btn" data-p="admin" id="admin-nav-btn" onclick="go('admin')" style="display:none">⚙️ Адмін</button>
   </nav>
   <div class="hdr-right" id="hdr-right">
     <button class="btn-login" onclick="openAuth('login')">Увійти</button>
@@ -947,25 +948,21 @@ async function signOut(){await sb.auth.signOut();CU=null;CP=null;updateHeader();
 
 function updateHeader(){
   const hr=document.getElementById('hdr-right');
-  const nav=document.getElementById('main-nav');
+  const admBtn=document.getElementById('admin-nav-btn');
   if(CU&&CP){
     const l=(CP.full_name||CP.email||'U')[0].toUpperCase();
     const av=CP.avatar_url?`<img src="${esc(CP.avatar_url)}" alt="">`:l;
     hr.innerHTML=`<div class="user-chip" onclick="go('cabinet')"><div class="user-ava">${av}</div><span style="font-size:13px;font-weight:500">${esc(CP.full_name||CP.email||'')}</span></div>`;
-    
-    // видаляємо стару кнопку адміна якщо є
-    const oldAdm=document.querySelector('.nav-btn[data-p="admin"]');
-    if(oldAdm)oldAdm.remove();
-    
-    // додаємо якщо адмін
-    if(CP.role==='admin'){
-      const b=document.createElement('button');
-      b.className='nav-btn';
-      b.dataset.p='admin';
-      b.textContent='⚙️ Адмін';
-      b.onclick=()=>go('admin');
-      nav.appendChild(b);
-    }
+    if(admBtn)admBtn.style.display=CP.role==='admin'?'block':'none';
+    const rw=document.getElementById('rv-write');
+    if(rw)rw.style.display='block';
+  }else{
+    hr.innerHTML=`<button class="btn-login" onclick="openAuth('login')">Увійти</button><button class="btn-reg" onclick="openAuth('register')">Реєстрація</button>`;
+    if(admBtn)admBtn.style.display='none';
+    const rw=document.getElementById('rv-write');
+    if(rw)rw.style.display='none';
+  }
+}
     
     const rw=document.getElementById('rv-write');
     if(rw)rw.style.display='block';
