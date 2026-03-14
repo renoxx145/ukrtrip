@@ -520,6 +520,7 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
           <div class="anb" data-as="cargo" onclick="showAS('cargo')">📦 Заявки</div>
           <div class="anb" data-as="reviews" onclick="showAS('reviews')">⭐ Відгуки</div>
           <div class="anb" data-as="users" onclick="showAS('users')">👥 Користувачі</div>
+          <div class="anb" data-as="orders" onclick="showAS('orders')">📋 Замовлення</div>
         </div>
       </div>
       <div>
@@ -558,10 +559,20 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
           <div style="font-size:16px;font-weight:700;margin-bottom:14px">Відгуки</div>
           <div class="tw"><table class="dt"><thead><tr><th>Автор</th><th>Рейтинг</th><th>Текст</th><th>Видимий</th><th>Дії</th></tr></thead><tbody id="adm-rv"></tbody></table></div>
         </div>
-        <div class="asec" id="as-users">
-          <div style="font-size:16px;font-weight:700;margin-bottom:14px">Користувачі</div>
-          <div class="tw"><table class="dt"><thead><tr><th>ПІБ</th><th>Email</th><th>Роль</th><th>Статус</th><th>Дії</th></tr></thead><tbody id="adm-users"></tbody></table></div>
-        </div>
+        <div class="asec" id="as-orders">
+        <div style="font-size:16px;font-weight:700;margin-bottom:14px">📋 Всі замовлення</div>
+        <div style="display:flex;gap:8px;margin-bottom:16px">
+   <button class="btn btn-secondary btn-sm" onclick="filterOrders('all')" id="ord-f-all" style="border-color:var(--accent);color:var(--accent)">Всі</button>
+    <button class="btn btn-secondary btn-sm" onclick="filterOrders('trips')" id="ord-f-trips">Тільки рейси</button>
+    <button class="btn btn-secondary btn-sm" onclick="filterOrders('cargo')" id="ord-f-cargo">Тільки вантаж</button>
+  </div>
+  <div id="orders-list"></div>
+   </div>
+
+      <div class="asec" id="as-users">
+     <div style="font-size:16px;font-weight:700;margin-bottom:14px">Користувачі</div>
+    <div class="tw"><table class="dt"><thead><tr><th>ПІБ</th><th>Email</th><th>Контакти</th><th>Роль</th><th>Статус</th><th>Дії</th></tr></thead><tbody id="adm-users"></tbody></table></div>
+   </div>
       </div>
     </div>
   </div>
@@ -1241,6 +1252,90 @@ async function saveEdit(){
 
 function closeEdit(){document.getElementById('edit-ov').classList.remove('open');editTrip=null;}
 function closeEditBg(e){if(e.target===document.getElementById('edit-ov'))closeEdit();}
+  
+// ORDERS
+let allOrders=[];
+
+async function loadOrders(){
+  const[bkRes,cgRes]=await Promise.all([
+    sb.from('bookings').select('*,trips(from_city,to_city,trip_date,trip_time,price),users(full_name,phone,telegram,email)').eq('status','confirmed').order('created_at',{ascending:false}),
+    sb.from('cargo_requests').select('*,users(full_name,phone,telegram,email)').order('created_at',{ascending:false})
+  ]);
+
+  const trips=(bkRes.data||[]).map(b=>({
+    type:'trip',
+    date:b.created_at,
+    user:b.users,
+    detail:`${b.trips?.from_city||'?'} → ${b.trips?.to_city||'?'}`,
+    subdetail:`${fdu(b.trips?.trip_date)} · ${b.trips?.trip_time?.slice(0,5)} · ${b.seats_booked} місць · ${b.seats_booked*b.trips?.price} грн`,
+    status:'confirmed',
+    id:b.id
+  }));
+
+  const cargo=(cgRes.data||[]).map(c=>({
+    type:'cargo',
+    date:c.created_at,
+    user:c.users,
+    detail:`${c.from_city||'?'} → ${c.to_city||'?'}`,
+    subdetail:`${fdu(c.cargo_date)} · ${c.description?.slice(0,50)}${c.description?.length>50?'...':''}`,
+    status:c.status,
+    id:c.id
+  }));
+
+  allOrders=[...trips,...cargo].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  renderOrders(allOrders);
+}
+
+function renderOrders(list){
+  const con=document.getElementById('orders-list');if(!con)return;
+  if(!list.length){
+    con.innerHTML=`<div style="padding:40px;text-align:center;color:var(--text2)">Замовлень немає</div>`;
+    return;
+  }
+  con.innerHTML=list.map(o=>{
+    const u=o.user;
+    const typeLabel=o.type==='trip'
+      ?`<span class="badge b-a">🚌 Рейс</span>`
+      :`<span class="badge b-p">📦 Вантаж</span>`;
+    const statusLabel=o.status==='confirmed'
+      ?`<span class="badge b-c">Підтверджено</span>`
+      :o.status==='rejected'
+      ?`<span class="badge b-r">Відхилено</span>`
+      :`<span class="badge b-p">На розгляді</span>`;
+    return`<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:flex;gap:16px;align-items:flex-start">
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+          ${typeLabel}
+          <span style="font-size:15px;font-weight:700">${esc(o.detail)}</span>
+          ${statusLabel}
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:10px">${esc(o.subdetail)}</div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:10px 14px">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Клієнт</div>
+          <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:13px">
+            <div>👤 <strong>${esc(u?.full_name||'—')}</strong></div>
+            <div>${u?.phone?`📱 ${esc(u.phone)}`:'<span style="color:var(--text3)">📱 не вказано</span>'}</div>
+            <div>${u?.telegram?`💬 ${esc(u.telegram)}`:'<span style="color:var(--text3)">💬 не вказано</span>'}</div>
+            <div style="color:var(--text3)">✉️ ${esc(u?.email||'—')}</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);white-space:nowrap">${fdu(o.date?.slice(0,10))}</div>
+    </div>`;
+  }).join('');
+}
+
+function filterOrders(type){
+  ['all','trips','cargo'].forEach(t=>{
+    const btn=document.getElementById('ord-f-'+t);
+    if(btn){btn.style.borderColor='';btn.style.color='';}
+  });
+  const active=document.getElementById('ord-f-'+type);
+  if(active){active.style.borderColor='var(--accent)';active.style.color='var(--accent)';}
+  if(type==='all')renderOrders(allOrders);
+  else if(type==='trips')renderOrders(allOrders.filter(o=>o.type==='trip'));
+  else renderOrders(allOrders.filter(o=>o.type==='cargo'));
+}
 
 // ============ CITIES ============
 function fillCities(){
