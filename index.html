@@ -369,8 +369,8 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
             <div></div>
           </div>
           <div class="fgrid2">
-            <div class="fg"><label class="fl">Звідки</label><select class="fi" id="c-from"><option value="">Оберіть</option></select></div>
-            <div class="fg"><label class="fl">Куди</label><select class="fi" id="c-to"><option value="">Оберіть</option></select></div>
+            <div class="fg"><label class="fl">Звідки</label><input type="text" class="fi" id="c-from" placeholder="Введіть місто або село"></div>
+            <div class="fg"><label class="fl">Куди</label><input type="text" class="fi" id="c-to" placeholder="Введіть місто або село"></div>
           </div>
           <div class="fg"><label class="fl">Опис вантажу</label><textarea class="fi" id="c-desc" placeholder="Тип, вага, розміри, особливі умови..."></textarea></div>
           <button class="btn btn-primary btn-full" onclick="submitCargo()">📤 Надіслати заявку</button>
@@ -534,8 +534,8 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
           <div style="font-size:16px;font-weight:700;margin-bottom:14px">Новий рейс</div>
           <div class="card" style="max-width:520px">
             <div class="fgrid2">
-              <div class="fg"><label class="fl">Звідки</label><select class="fi" id="nt-from"><option value="">Оберіть</option></select></div>
-              <div class="fg"><label class="fl">Куди</label><select class="fi" id="nt-to"><option value="">Оберіть</option></select></div>
+              <div class="fg"><label class="fl">Звідки</label><input type="text" class="fi" id="nt-from" placeholder="Введіть місто або село"></div>
+              <div class="fg"><label class="fl">Куди</label><input type="text" class="fi" id="nt-to" placeholder="Введіть місто або село"></div>
             </div>
             <div class="fgrid2">
               <div class="fg"><label class="fl">Дата</label><input type="date" class="fi" id="nt-date"></div>
@@ -1389,11 +1389,7 @@ async function kickFromOrders(bookingId){
   
 // ============ CITIES ============
 function fillCities(){
-  ['c-from','c-to','nt-from','nt-to'].forEach(id=>{
-    const el=document.getElementById(id);if(!el)return;
-    if(!el.querySelector('option[value=""]'))el.innerHTML='<option value="">Оберіть місто</option>';
-    CITIES.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;el.appendChild(o);});
-  });
+  // поля тепер текстові, нічого заповнювати не треба
 }
 
 // ============ MOBILE ============
