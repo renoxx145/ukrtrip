@@ -19,14 +19,12 @@ input,textarea,select{font-family:var(--font)}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 
-/* LOADING */
 #app-loading{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .4s ease}
-.loading-logo{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700;color:var(--text)}
+.loading-logo{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700}
 .loading-logo .ico{width:42px;height:42px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
 .spin{width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* HEADER */
 header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,13,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);height:60px;padding:0 28px;display:flex;align-items:center;justify-content:space-between}
 .logo{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;cursor:pointer}
 .logo .logo-ico{width:34px;height:34px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
@@ -45,7 +43,6 @@ nav{display:flex;align-items:center;gap:2px}
 .user-ava img{width:100%;height:100%;object-fit:cover}
 .burger{color:var(--text2);font-size:22px;display:none;padding:4px}
 
-/* MAIN */
 main{padding-top:60px;min-height:100vh}
 .page{display:none;animation:fadeUp .25s ease}
 .page.active{display:block}
@@ -53,13 +50,11 @@ main{padding-top:60px;min-height:100vh}
 .container{max-width:1080px;margin:0 auto;padding:0 24px}
 .section{padding:36px 0}
 
-/* TRIPS HERO */
 .trips-hero{padding:48px 24px 36px;text-align:center}
 .trips-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:var(--card);border:1px solid var(--border);font-size:13px;color:var(--text2);margin-bottom:20px}
 .trips-hero h1{font-size:clamp(26px,4vw,42px);font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-.5px}
 .trips-hero p{font-size:15px;color:var(--text2)}
 
-/* DATE STRIP */
 .date-strip-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;margin-bottom:32px}
 .date-strip-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
 .date-rows{display:flex;flex-direction:column;gap:6px}
@@ -78,7 +73,6 @@ main{padding-top:60px;min-height:100vh}
 .date-dot{display:none;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-top:4px}
 .date-cell.selected .date-dot{background:rgba(255,255,255,.6)}
 
-/* TRIP CARDS */
 .trip-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;display:flex;align-items:center;gap:20px;transition:var(--tr);margin-bottom:10px;cursor:pointer}
 .trip-card:hover:not(.full){border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 20px rgba(59,130,246,.1)}
 .trip-card.full{opacity:.45;cursor:default}
@@ -98,13 +92,11 @@ main{padding-top:60px;min-height:100vh}
 .btn-book:hover{background:var(--accent-h)}
 .btn-book:disabled{opacity:.4;cursor:default}
 
-/* EMPTY */
 .empty-state{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:60px 24px;text-align:center}
 .ei{font-size:48px;margin-bottom:14px;color:var(--text3)}
 .et{font-size:16px;font-weight:600;margin-bottom:6px}
 .es{font-size:14px;color:var(--text2)}
 
-/* BUTTONS */
 .btn{padding:10px 20px;border-radius:var(--r2);font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:var(--tr);cursor:pointer;border:none}
 .btn-primary{background:var(--accent);color:#fff}
 .btn-primary:hover{background:var(--accent-h);transform:translateY(-1px)}
@@ -117,7 +109,6 @@ main{padding-top:60px;min-height:100vh}
 .btn-full{width:100%;justify-content:center}
 .btn:disabled{opacity:.45;cursor:default;transform:none!important}
 
-/* FORM */
 .fg{margin-bottom:16px}
 .fl{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:7px;text-transform:uppercase;letter-spacing:.3px}
 .fi{width:100%;padding:10px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);color:var(--text);font-size:14px;transition:var(--tr);-webkit-appearance:none}
@@ -127,18 +118,16 @@ textarea.fi{resize:vertical;min-height:96px}
 select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2352525e'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px}
 .fgrid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 
-/* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(5px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .22s ease}
 .overlay.open{opacity:1;pointer-events:all}
 .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;width:100%;max-width:420px;padding:28px;max-height:90vh;overflow-y:auto;transform:scale(.95) translateY(8px);transition:transform .22s ease}
 .overlay.open .modal{transform:scale(1) translateY(0)}
-.modal-wide{max-width:560px}
+.modal-wide{max-width:680px}
 .mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
 .mt{font-size:17px;font-weight:700}
 .mx{width:30px;height:30px;border-radius:var(--r2);background:var(--card);border:1px solid var(--border);color:var(--text2);display:flex;align-items:center;justify-content:center;font-size:16px;transition:var(--tr)}
 .mx:hover{color:var(--text)}
 
-/* AUTH TABS */
 .auth-tabs{display:flex;gap:2px;background:var(--bg3);padding:3px;border-radius:var(--r2);margin-bottom:20px}
 .auth-tab{flex:1;padding:7px;text-align:center;font-size:13px;font-weight:600;color:var(--text2);border-radius:6px;cursor:pointer;transition:var(--tr)}
 .auth-tab.active{background:var(--card);color:var(--text)}
@@ -149,7 +138,6 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .btn-google{width:100%;padding:10px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);color:var(--text);font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:9px;transition:var(--tr);cursor:pointer}
 .btn-google:hover{background:var(--card2)}
 
-/* TOAST */
 #toasts{position:fixed;top:72px;right:20px;z-index:500;display:flex;flex-direction:column;gap:7px}
 .toast{padding:11px 16px;border-radius:var(--r2);font-size:13px;font-weight:500;box-shadow:var(--shadow);max-width:300px;display:flex;align-items:center;gap:9px;animation:tIn .25s ease}
 @keyframes tIn{from{transform:translateX(110%);opacity:0}}
@@ -157,29 +145,23 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .t-err{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#f87171}
 .t-inf{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#60a5fa}
 
-/* PAGE HEADER */
 .page-hdr{padding:32px 24px 28px;border-bottom:1px solid var(--border);background:var(--bg2)}
 .page-hdr h1{font-size:24px;font-weight:700}
 .page-hdr p{font-size:14px;color:var(--text2);margin-top:5px}
-
-/* CARD */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px}
 
-/* STATS */
 .stats-row{display:flex;border-top:1px solid var(--border);background:var(--bg2)}
 .stat-item{flex:1;padding:20px 16px;text-align:center;border-right:1px solid var(--border)}
 .stat-item:last-child{border-right:none}
 .sn{font-size:26px;font-weight:700;color:var(--accent)}
 .sl{font-size:12px;color:var(--text2);margin-top:3px}
 
-/* HOME HERO */
 .home-hero{padding:64px 24px 48px;text-align:center;background:linear-gradient(180deg,rgba(59,130,246,.05) 0%,transparent 70%)}
 .home-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border-radius:20px;background:var(--card);border:1px solid var(--border);font-size:12px;color:var(--text2);margin-bottom:18px}
 .home-hero h1{font-size:clamp(28px,4vw,48px);font-weight:700;letter-spacing:-.7px;margin-bottom:12px}
 .home-hero p{font-size:15px;color:var(--text2);max-width:480px;margin:0 auto 28px}
 .home-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
-/* CABINET */
 .cab-layout{display:grid;grid-template-columns:220px 1fr;gap:22px}
 .cab-profile{text-align:center;padding:22px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px}
 .pava-wrap{position:relative;display:inline-block;margin-bottom:12px}
@@ -197,7 +179,6 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .bst-ok{background:rgba(34,197,94,.12);color:var(--green)}
 .bst-no{background:rgba(239,68,68,.12);color:var(--red)}
 
-/* ADMIN */
 .adm-layout{display:grid;grid-template-columns:190px 1fr;gap:22px}
 .adm-nav{display:flex;flex-direction:column;gap:2px}
 .anb{padding:9px 13px;border-radius:var(--r2);font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:8px}
@@ -218,7 +199,6 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
 .b-a{background:rgba(59,130,246,.12);color:var(--accent)}
 .b-u{background:rgba(82,82,94,.2);color:var(--text2)}
 
-/* REVIEWS */
 .rv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
 .rv-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px}
 .rv-head{display:flex;align-items:center;gap:11px;margin-bottom:12px}
@@ -229,38 +209,26 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
 .star-pick span{color:var(--border2);transition:var(--tr)}
 .star-pick span.on{color:#f59e0b}
 
-/* INFO */
 .info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
 .ic{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px}
-
-/* CONTACT */
 .ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .ct-item{display:flex;align-items:flex-start;gap:14px;padding:15px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px}
-
-/* DRIVER REVEAL */
 .driver-reveal{background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);border-radius:var(--r);padding:20px;text-align:center;margin-top:16px}
-
-/* CARGO SUCCESS */
 .cargo-ok{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:var(--r);padding:22px;text-align:center}
 
-/* MOBILE MENU */
+/* PASSENGER ROW */
+.pass-row{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.pass-ava{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);overflow:hidden;flex-shrink:0}
+.pass-ava img{width:100%;height:100%;object-fit:cover}
+
 .mob-menu{position:fixed;inset:0;background:var(--bg);z-index:150;flex-direction:column;padding:72px 20px 20px;gap:3px;display:none}
 .mob-menu.open{display:flex}
 .mob-close{position:absolute;top:14px;right:16px;background:var(--card);border:1px solid var(--border);color:var(--text2);width:34px;height:34px;border-radius:var(--r2);display:flex;align-items:center;justify-content:center}
 .mob-link{padding:13px 14px;border-radius:var(--r2);font-size:15px;font-weight:500;color:var(--text2);cursor:pointer;transition:var(--tr)}
 .mob-link:hover{background:var(--card);color:var(--text)}
 
-/* RESPONSIVE */
 @media(max-width:900px){.date-row{grid-template-columns:repeat(7,1fr)}}
-@media(max-width:768px){
-  nav{display:none}.burger{display:flex}
-  .fgrid2{grid-template-columns:1fr}
-  .cab-layout,.adm-layout{grid-template-columns:1fr}
-  .ct-grid{grid-template-columns:1fr}
-  .stats-row{flex-wrap:wrap}
-  .stat-item{min-width:50%}
-  .trip-card{flex-wrap:wrap}
-}
+@media(max-width:768px){nav{display:none}.burger{display:flex}.fgrid2{grid-template-columns:1fr}.cab-layout,.adm-layout{grid-template-columns:1fr}.ct-grid{grid-template-columns:1fr}.stats-row{flex-wrap:wrap}.stat-item{min-width:50%}.trip-card{flex-wrap:wrap}}
 @media(max-width:580px){.date-row{grid-template-columns:repeat(5,1fr)}}
 </style>
 </head>
@@ -270,7 +238,6 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
   <div class="loading-logo"><div class="ico">🚌</div>УкрТрансфер</div>
   <div class="spin"></div>
 </div>
-
 <div id="toasts"></div>
 
 <div class="mob-menu" id="mob-menu">
@@ -378,7 +345,7 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
         <div class="card" style="margin-bottom:14px">
           <div style="font-size:15px;font-weight:700;margin-bottom:14px">Як це працює?</div>
           <div style="display:flex;flex-direction:column;gap:12px">
-            <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:26px;height:26px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0">1</div><div><div style="font-weight:600;font-size:13px">Заповніть форму</div><div style="font-size:12px;color:var(--text2);margin-top:2px">Вкажіть маршрут, дату та опис вантажу</div></div></div>
+            <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:26px;height:26px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0">1</div><div><div style="font-weight:600;font-size:13px">Заповніть форму</div><div style="font-size:12px;color:var(--text2);margin-top:2px">Вкажіть маршрут, дату та опис</div></div></div>
             <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:26px;height:26px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0">2</div><div><div style="font-weight:600;font-size:13px">Підтвердження</div><div style="font-size:12px;color:var(--text2);margin-top:2px">Адміністратор розгляне та підтвердить</div></div></div>
             <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:26px;height:26px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0">3</div><div><div style="font-weight:600;font-size:13px">Організуємо доставку</div><div style="font-size:12px;color:var(--text2);margin-top:2px">Погоджуємо деталі та доставляємо</div></div></div>
           </div>
@@ -397,7 +364,7 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
       <div class="ic"><div style="font-size:32px;margin-bottom:12px">🛡️</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">Безпечні поїздки</div><div style="font-size:13px;color:var(--text2);line-height:1.65">Всі водії пройшли перевірку. Ми гарантуємо безпеку кожного пасажира на всьому маршруті.</div></div>
       <div class="ic"><div style="font-size:32px;margin-bottom:12px">💳</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">Зручна оплата</div><div style="font-size:13px;color:var(--text2);line-height:1.65">Оплата готівкою або карткою безпосередньо водію. Ніяких прихованих комісій.</div></div>
       <div class="ic"><div style="font-size:32px;margin-bottom:12px">🕐</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">Точність часу</div><div style="font-size:13px;color:var(--text2);line-height:1.65">Водії виїжджають за розкладом. Будьте на місці за 5-10 хвилин до відправлення.</div></div>
-      <div class="ic"><div style="font-size:32px;margin-bottom:12px">📱</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">Онлайн бронювання</div><div style="font-size:13px;color:var(--text2);line-height:1.65">Бронюйте місця 24/7 через сайт. Після бронювання отримуєте контакт водія одразу.</div></div>
+      <div class="ic"><div style="font-size:32px;margin-bottom:12px">📱</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">Онлайн бронювання</div><div style="font-size:13px;color:var(--text2);line-height:1.65">Бронюйте місця 24/7. Після підтвердження отримуєте контакт водія одразу.</div></div>
       <div class="ic"><div style="font-size:32px;margin-bottom:12px">🎒</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">Багаж</div><div style="font-size:13px;color:var(--text2);line-height:1.65">Один середній валіза включений у ціну. За додатковий багаж — домовтесь з водієм.</div></div>
       <div class="ic"><div style="font-size:32px;margin-bottom:12px">❌</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">Скасування</div><div style="font-size:13px;color:var(--text2);line-height:1.65">Скасувати бронювання можна в кабінеті не пізніше ніж за 2 години до відправлення.</div></div>
     </div>
@@ -424,9 +391,9 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
         <div style="font-size:15px;font-weight:700;margin-bottom:14px">Написати відгук</div>
         <div class="fg"><label class="fl">Оцінка</label>
           <div class="star-pick" id="star-pick">
-            <span data-v="1" onclick="setStars(1)">★</span><span data-v="2" onclick="setStars(2)">★</span>
-            <span data-v="3" onclick="setStars(3)">★</span><span data-v="4" onclick="setStars(4)">★</span>
-            <span data-v="5" onclick="setStars(5)">★</span>
+            <span onclick="setStars(1)">★</span><span onclick="setStars(2)">★</span>
+            <span onclick="setStars(3)">★</span><span onclick="setStars(4)">★</span>
+            <span onclick="setStars(5)">★</span>
           </div>
         </div>
         <div class="fg"><label class="fl">Ваш відгук</label><textarea class="fi" id="rv-text" placeholder="Поділіться враженнями..."></textarea></div>
@@ -488,19 +455,20 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
         <div class="csec" id="cs-hist"><div style="font-size:16px;font-weight:700;margin-bottom:14px">Історія поїздок</div><div id="hist-list"></div></div>
         <div class="csec" id="cs-cargo"><div style="font-size:16px;font-weight:700;margin-bottom:14px">Мої заявки на вантаж</div><div id="cab-cargo"></div></div>
         <div class="csec" id="cs-settings">
-  <div style="font-size:16px;font-weight:700;margin-bottom:16px">Налаштування</div>
-  <div class="card" style="max-width:420px">
-    <div class="fg"><label class="fl">ПІБ</label><input type="text" class="fi" id="set-name"></div>
-    <div class="fg">
-      <label class="fl">Номер телефону</label>
-      <input type="tel" class="fi" id="set-phone" placeholder="+380...">
-      <div style="font-size:11px;color:var(--text3);margin-top:4px">Щоб з вами зв'язався адмін</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:16px">Налаштування</div>
+          <div class="card" style="max-width:420px">
+            <div class="fg"><label class="fl">ПІБ</label><input type="text" class="fi" id="set-name"></div>
+            <div class="fg">
+              <label class="fl">Номер телефону</label>
+              <input type="tel" class="fi" id="set-phone" placeholder="+380...">
+              <div style="font-size:11px;color:var(--text3);margin-top:4px">Щоб з вами зв'язався адмін</div>
+            </div>
+            <div class="fg"><label class="fl">Telegram</label><input type="text" class="fi" id="set-telegram" placeholder="@username"></div>
+            <button class="btn btn-primary" onclick="saveProfile()">Зберегти</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="fg">
-      <label class="fl">Telegram</label>
-      <input type="text" class="fi" id="set-telegram" placeholder="@username">
-    </div>
-    <button class="btn btn-primary" onclick="saveProfile()">Зберегти</button>
   </div>
 </div>
 
@@ -548,17 +516,15 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
         </div>
         <div class="asec" id="as-cargo">
           <div style="font-size:16px;font-weight:700;margin-bottom:14px">Заявки на вантаж</div>
-          <div class="tw"><table class="dt"><thead><tr><th>Маршрут</th><th>Дата</th><th>Опис</th><th>Статус</th><th>Дії</th></tr></thead><tbody id="adm-cargo"></tbody></table></div>
+          <div class="tw"><table class="dt"><thead><tr><th>Маршрут / Клієнт</th><th>Дата</th><th>Опис</th><th>Статус</th><th>Дії</th></tr></thead><tbody id="adm-cargo"></tbody></table></div>
         </div>
         <div class="asec" id="as-reviews">
-  <div style="font-size:16px;font-weight:700;margin-bottom:14px">Відгуки</div>
-  <div class="tw"><table class="dt"><thead><tr>
-    <th>Автор</th><th>Рейтинг</th><th>Текст</th><th>Відповідь</th><th>Видимий</th><th>Дії</th>
-  </tr></thead><tbody id="adm-rv"></tbody></table></div>
-</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:14px">Відгуки</div>
+          <div class="tw"><table class="dt"><thead><tr><th>Автор</th><th>Рейтинг</th><th>Текст</th><th>Відповідь</th><th>Видимий</th><th>Дії</th></tr></thead><tbody id="adm-rv"></tbody></table></div>
+        </div>
         <div class="asec" id="as-users">
           <div style="font-size:16px;font-weight:700;margin-bottom:14px">Користувачі</div>
-          <div class="tw"><table class="dt"><thead><tr><th>ПІБ</th><th>Email</th><th>Роль</th><th>Статус</th><th>Дії</th></tr></thead><tbody id="adm-users"></tbody></table></div>
+          <div class="tw"><table class="dt"><thead><tr><th>ПІБ</th><th>Email</th><th>Контакти</th><th>Роль</th><th>Статус</th><th>Дії</th></tr></thead><tbody id="adm-users"></tbody></table></div>
         </div>
       </div>
     </div>
@@ -609,10 +575,7 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
     <div class="mh"><div class="mt">Бронювання місця</div><button class="mx" onclick="closeBook()">✕</button></div>
     <div id="book-info" style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:14px;margin-bottom:18px"></div>
     <div id="book-reveal" style="display:none"></div>
-    <div id="book-form">
-      <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Підтвердіть бронювання одного місця на цей рейс.</p>
-      <button class="btn btn-primary btn-full" id="book-btn" onclick="confirmBook()">✅ Підтвердити бронювання</button>
-    </div>
+    <div id="book-form"></div>
   </div>
 </div>
 
@@ -624,23 +587,49 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
   </div>
 </div>
 
+<!-- PASSENGERS MODAL -->
+<div class="overlay" id="pass-ov" onclick="closePassBg(event)">
+  <div class="modal modal-wide">
+    <div class="mh"><div class="mt" id="pass-title">Пасажири рейсу</div><button class="mx" onclick="closePass()">✕</button></div>
+    <div id="pass-content"></div>
+  </div>
+</div>
+
+<!-- REPLY MODAL -->
+<div class="overlay" id="reply-ov" onclick="closeReplyBg(event)">
+  <div class="modal">
+    <div class="mh"><div class="mt">Відповідь на відгук</div><button class="mx" onclick="closeReply()">✕</button></div>
+    <div id="reply-review-text" style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:12px;margin-bottom:16px;font-size:13px;color:var(--text2)"></div>
+    <div class="fg"><label class="fl">Ваша відповідь</label><textarea class="fi" id="reply-text" placeholder="Напишіть відповідь..." style="min-height:100px"></textarea></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="saveReply(false)">✅ Зберегти</button>
+      <button class="btn btn-danger" onclick="saveReply(true)">🗑️ Видалити відповідь</button>
+    </div>
+  </div>
+</div>
+
+<!-- USER PROFILE MODAL -->
+<div class="overlay" id="profile-ov" onclick="closeProfileBg(event)">
+  <div class="modal">
+    <div class="mh"><div class="mt">Профіль користувача</div><button class="mx" onclick="closeProfile()">✕</button></div>
+    <div id="profile-content"></div>
+  </div>
+</div>
+
 <script>
-// ============ SUPABASE ============
 const SB_URL='https://tzpvaawuzspczevszxjn.supabase.co';
 const SB_KEY='sb_publishable_zbeffxcG0RBjnVIg-SiAPg_v6epZIFK';
 const sb=supabase.createClient(SB_URL,SB_KEY);
 
-// ============ STATE ============
 let CU=null,CP=null,selDate=null,bookTrip=null,editTrip=null,selStars=0,allTrips=[];
+let replyReviewId=null;
 
 const CITIES=['Київ','Львів','Харків','Одеса','Дніпро','Запоріжжя','Вінниця','Полтава','Суми','Чернігів','Миколаїв','Херсон','Черкаси','Кропивницький','Рівне','Луцьк','Житомир','Тернопіль','Хмельницький','Івано-Франківськ','Ужгород','Чернівці'];
 const MUK=['січ.','лют.','бер.','квіт.','трав.','черв.','лип.','серп.','вер.','жовт.','лист.','груд.'];
 const DUK=['НЕД','ПОН','ВІВ','СЕР','ЧТВ','ПТН','СУБ'];
 
-// ============ INIT ============
 async function init(){
-  fillCities();
-  buildStrip();
+  fillCities();buildStrip();
   const{data:{session}}=await sb.auth.getSession();
   if(session){CU=session.user;await loadProfile();}
   updateHeader();
@@ -651,13 +640,11 @@ async function init(){
   });
   await loadHome();
   hideLoad();
-  const today=new Date();
-  selectDate(fd(today));
+  selectDate(fd(new Date()));
 }
 
 function hideLoad(){const e=document.getElementById('app-loading');e.style.opacity='0';setTimeout(()=>e.style.display='none',400);}
 
-// ============ NAV ============
 function go(p){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
@@ -666,12 +653,11 @@ function go(p){
   window.scrollTo(0,0);
   if(p==='trips')buildStrip();
   if(p==='reviews')loadReviews();
-  if(p==='cabinet')loadCabinet();
-  if(p==='admin')loadAdmin();
+  if(p==='cabinet'){if(!CU){openAuth('login');return;}loadCabinet();}
+  if(p==='admin'){if(!CP||CP.role!=='admin'){toast('Доступ заборонено','err');return;}loadAdmin();}
   if(p==='cargo')loadMyCargo();
 }
 
-// ============ DATE STRIP ============
 function buildStrip(){
   const con=document.getElementById('date-rows');if(!con)return;
   const today=new Date();today.setHours(0,0,0,0);
@@ -704,20 +690,9 @@ async function loadTrips(ds){
   ttl.style.display='block';
   const d=new Date(ds);
   ttl.textContent='Рейси на '+d.toLocaleDateString('uk-UA',{day:'numeric',month:'long',year:'numeric'});
-  const{data,error}=await sb.from('trips')
-    .select('*')
-    .eq('trip_date',ds)
-    .eq('is_active',true)
-    .order('trip_time');
-  if(error){
-    console.error('Load trips error:',error);
-    list.innerHTML=`<div style="padding:24px;text-align:center;color:var(--red)">Помилка: ${error.message}</div>`;
-    return;
-  }
-  if(!data||!data.length){
-    list.innerHTML=`<div class="empty-state"><div class="ei">📍</div><div class="et">На цю дату рейсів немає</div><div class="es">Спробуйте обрати іншу дату</div></div>`;
-    return;
-  }
+  const{data,error}=await sb.from('trips').select('*').eq('trip_date',ds).eq('is_active',true).order('trip_time');
+  if(error){list.innerHTML=`<div style="padding:24px;text-align:center;color:var(--red)">Помилка: ${error.message}</div>`;return;}
+  if(!data||!data.length){list.innerHTML=`<div class="empty-state"><div class="ei">📍</div><div class="et">На цю дату рейсів немає</div><div class="es">Спробуйте обрати іншу дату</div></div>`;return;}
   allTrips=data;
   list.innerHTML=data.map(tripHTML).join('');
 }
@@ -731,14 +706,10 @@ function tripHTML(t){
       <div class="tc-cities"><span>${esc(t.from_city)}</span><span class="tc-arrow">→</span><span>${esc(t.to_city)}</span></div>
       <div class="tc-meta"><div class="tc-mi">🕐 ${t.trip_time?.slice(0,5)}</div><div class="tc-mi">👤 ${esc(t.driver_name)}</div>${badge}</div>
     </div>
-    <div class="tc-right">
-      <div><div class="tc-price">${t.price} грн</div><div class="tc-price-sub">за місце</div></div>
-      ${btn}
-    </div>
+    <div class="tc-right"><div><div class="tc-price">${t.price} грн</div><div class="tc-price-sub">за місце</div></div>${btn}</div>
   </div>`;
 }
 
-// ============ HOME ============
 async function loadHome(){
   const[tr,ur,br]=await Promise.all([
     sb.from('trips').select('id',{count:'exact'}).eq('is_active',true),
@@ -751,7 +722,7 @@ async function loadHome(){
   if(con)con.innerHTML=data?.length?data.map(tripHTML).join(''):`<div class="empty-state"><div class="ei">🚌</div><div class="et">Рейсів поки немає</div></div>`;
 }
 
-// ============ BOOKING ============
+// BOOKING
 function openBook(id,e){
   if(e)e.stopPropagation();
   if(!CU){openAuth('login');toast('Спочатку увійдіть в акаунт','inf');return;}
@@ -760,92 +731,52 @@ function openBook(id,e){
   const d=new Date(t.trip_date);
   document.getElementById('book-info').innerHTML=`
     <div style="font-weight:700;font-size:15px;margin-bottom:8px">${esc(t.from_city)} → ${esc(t.to_city)}</div>
-    <div style="display:flex;gap:16px;font-size:13px;color:var(--text2)">
+    <div style="display:flex;gap:16px;font-size:13px;color:var(--text2);flex-wrap:wrap">
       <span>📅 ${d.toLocaleDateString('uk-UA',{day:'numeric',month:'long'})}</span>
       <span>🕐 ${t.trip_time?.slice(0,5)}</span>
       <span>💰 ${t.price} грн/місце</span>
       <span>💺 Вільно: ${t.available_seats}</span>
     </div>`;
-  // будуємо селект кількості місць
-  const max=t.available_seats;
-  let opts='';
-  for(let i=1;i<=max;i++) opts+=`<option value="${i}">${i} місце${i===1?'':'${i<5?"ця":"ць"}'}</option>`;
-  // простіше так:
-  const labels={1:'місце',2:'місця',3:'місця',4:'місця'};
+  const labels={1:'місце',2:'місця',3:'місця',4:'місця',5:'місць'};
   let optsHtml='';
-  for(let i=1;i<=max;i++) optsHtml+=`<option value="${i}">${i} ${labels[i]||'місць'}</option>`;
-
+  for(let i=1;i<=t.available_seats;i++)optsHtml+=`<option value="${i}">${i} ${labels[i]||'місць'}</option>`;
   document.getElementById('book-reveal').style.display='none';
   document.getElementById('book-form').style.display='block';
   document.getElementById('book-form').innerHTML=`
-    <div style="margin-bottom:16px">
-      <label style="display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:7px;text-transform:uppercase;letter-spacing:.3px">Кількість місць</label>
-      <select class="fi" id="book-seats-count" onchange="updateBookTotal()" style="max-width:200px">
-        ${optsHtml}
-      </select>
+    <div class="fg">
+      <label class="fl">Кількість місць</label>
+      <select class="fi" id="book-seats" onchange="updateTotal()" style="max-width:200px">${optsHtml}</select>
     </div>
     <div id="book-total" style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;margin-bottom:16px;font-size:14px">
       До сплати: <strong style="color:var(--accent)">${t.price} грн</strong>
     </div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Оплата безпосередньо водію готівкою або карткою.</p>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Оплата водію готівкою або карткою при посадці.</p>
     <button class="btn btn-primary btn-full" id="book-btn" onclick="confirmBook()">✅ Підтвердити бронювання</button>`;
   document.getElementById('book-ov').classList.add('open');
 }
 
-function updateBookTotal(){
+function updateTotal(){
   if(!bookTrip)return;
-  const sel=document.getElementById('book-seats-count');
-  if(!sel)return;
-  const n=parseInt(sel.value);
-  const total=n*bookTrip.price;
+  const n=parseInt(document.getElementById('book-seats')?.value||1);
   const el=document.getElementById('book-total');
-  if(el)el.innerHTML=`До сплати: <strong style="color:var(--accent)">${total} грн</strong> <span style="color:var(--text2);font-size:12px">(${n} × ${bookTrip.price} грн)</span>`;
-}  
+  if(el)el.innerHTML=`До сплати: <strong style="color:var(--accent)">${n*bookTrip.price} грн</strong> <span style="color:var(--text2);font-size:12px">(${n} × ${bookTrip.price} грн)</span>`;
+}
 
 async function confirmBook(){
   if(!bookTrip||!CU)return;
   const btn=document.getElementById('book-btn');
-  const sel=document.getElementById('book-seats-count');
-  const seatsCount=sel?parseInt(sel.value):1;
-
-  if(seatsCount>bookTrip.available_seats){
-    toast(`Доступно лише ${bookTrip.available_seats} місць','err`);
-    return;
-  }
-
+  const seatsCount=parseInt(document.getElementById('book-seats')?.value||1);
   btn.disabled=true;btn.textContent='Бронювання...';
-
-  // перевіряємо чи вже є бронювання на цей рейс
-    // перевіряємо скільки місць вже заброньовано
-    // перевіряємо актуальну кількість вільних місць прямо з бази
-  const{data:freshTrip}=await sb.from('trips')
-    .select('available_seats')
-    .eq('id',bookTrip.id)
-    .single();
-
+  // перевіряємо актуальну кількість місць
+  const{data:freshTrip}=await sb.from('trips').select('available_seats').eq('id',bookTrip.id).single();
   const realAvailable=freshTrip?.available_seats??0;
-
   if(seatsCount>realAvailable){
     btn.disabled=false;btn.textContent='✅ Підтвердити бронювання';
-    toast(`Недостатньо місць. Вільно: ${realAvailable}`,'err');
-    return;
+    toast(`Недостатньо місць. Вільно: ${realAvailable}`,'err');return;
   }
-
-  const{error}=await sb.from('bookings').insert({
-    user_id:CU.id,
-    trip_id:bookTrip.id,
-    seats_booked:seatsCount,
-    status:'confirmed'
-  });
-
+  const{error}=await sb.from('bookings').insert({user_id:CU.id,trip_id:bookTrip.id,seats_booked:seatsCount,status:'confirmed'});
   btn.disabled=false;btn.textContent='✅ Підтвердити бронювання';
-
-  if(error){
-    toast('Помилка: '+error.message,'err');
-    console.error(error);
-    return;
-  }
-
+  if(error){toast('Помилка: '+error.message,'err');console.error(error);return;}
   const total=seatsCount*bookTrip.price;
   toast(`✅ Заброньовано ${seatsCount} місць!`,'ok');
   document.getElementById('book-form').style.display='none';
@@ -853,27 +784,23 @@ async function confirmBook(){
   document.getElementById('book-reveal').innerHTML=`
     <div class="driver-reveal">
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px">🎉 Підтверджено!</div>
-      <div style="font-size:15px;font-weight:700;margin-bottom:4px">
-        ${seatsCount} місць × ${bookTrip.price} грн = <span style="color:var(--accent)">${total} грн</span>
-      </div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:4px">${seatsCount} × ${bookTrip.price} грн = <span style="color:var(--accent)">${total} грн</span></div>
       <div style="font-size:12px;color:var(--text2);margin-bottom:12px">Оплата водію при посадці</div>
       <div style="font-size:13px;color:var(--text2);margin-bottom:4px">Контакт водія:</div>
       <div style="font-size:16px;font-weight:700;margin-bottom:4px">${esc(bookTrip.driver_name)}</div>
       <div style="font-size:20px;font-weight:700;color:var(--accent)">${esc(bookTrip.driver_phone)}</div>
       ${bookTrip.driver_contact?`<div style="font-size:13px;color:var(--text2);margin-top:5px">${esc(bookTrip.driver_contact)}</div>`:''}
     </div>`;
-
   if(selDate)loadTrips(selDate);
 }
 
 function closeBook(){document.getElementById('book-ov').classList.remove('open');bookTrip=null;}
 function closeBookBg(e){if(e.target===document.getElementById('book-ov'))closeBook();}
 
-// ============ AUTH ============
+// AUTH
 function openAuth(t){document.getElementById('auth-ov').classList.add('open');switchTab(t==='register'?'r':'l');}
 function closeAuth(){document.getElementById('auth-ov').classList.remove('open');}
 function closeAuthBg(e){if(e.target===document.getElementById('auth-ov'))closeAuth();}
-
 function switchTab(t){
   document.getElementById('tb-l').classList.toggle('active',t==='l');
   document.getElementById('tb-r').classList.toggle('active',t==='r');
@@ -881,12 +808,7 @@ function switchTab(t){
   document.getElementById('tab-r').classList.toggle('active',t==='r');
   document.getElementById('auth-title').textContent=t==='l'?'Вхід':'Реєстрація';
 }
-
-async function googleAuth(){
-  const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});
-  if(error)toast('Помилка: '+error.message,'err');
-}
-
+async function googleAuth(){const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});if(error)toast('Помилка: '+error.message,'err');}
 async function loginEmail(){
   const email=v('l-email'),pass=v('l-pass');
   if(!email||!pass){toast('Заповніть всі поля','err');return;}
@@ -894,14 +816,13 @@ async function loginEmail(){
   if(error){toast(error.message,'err');return;}
   toast('✅ Успішний вхід!','ok');closeAuth();
 }
-
 async function registerEmail(){
   const name=v('r-name'),email=v('r-email'),pass=v('r-pass');
   if(!name||!email||!pass){toast('Заповніть всі поля','err');return;}
   if(pass.length<6){toast('Пароль мінімум 6 символів','err');return;}
   const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});
   if(error){toast(error.message,'err');return;}
-  if(data.user)await sb.from('users').upsert({id:data.user.id,email,full_name:name},{onConflict:'id'});
+  if(data.user)await sb.from('users').upsert({id:data.user.id,email,full_name:name,role:'user'},{onConflict:'id',ignoreDuplicates:true});
   toast('✅ Реєстрацію завершено!','ok');closeAuth();
 }
 
@@ -909,14 +830,14 @@ async function loadProfile(){
   if(!CU)return;
   const{data}=await sb.from('users').select('*').eq('id',CU.id).single();
   if(data){
+    // ВАЖЛИВО: зберігаємо роль з бази, не перезаписуємо
     CP=data;
   } else {
     const name=CU.user_metadata?.full_name||'';
     const avatar=CU.user_metadata?.avatar_url||'';
     const{data:newUser}=await sb.from('users')
       .insert({id:CU.id,email:CU.email,full_name:name,avatar_url:avatar,role:'user'})
-      .select()
-      .single();
+      .select().single();
     CP=newUser||{id:CU.id,email:CU.email,full_name:name,role:'user'};
     if(!name)document.getElementById('name-ov').classList.add('open');
   }
@@ -939,7 +860,8 @@ function updateHeader(){
     const av=CP.avatar_url?`<img src="${esc(CP.avatar_url)}" alt="">`:l;
     hr.innerHTML=`<div class="user-chip" onclick="go('cabinet')"><div class="user-ava">${av}</div><span style="font-size:13px;font-weight:500">${esc(CP.full_name||CP.email||'')}</span></div>`;
     if(CP.role==='admin'&&!document.querySelector('.nav-btn[data-p="admin"]')){
-      const b=document.createElement('button');b.className='nav-btn';b.dataset.p='admin';b.textContent='⚙️ Адмін';b.onclick=()=>go('admin');nav.appendChild(b);
+      const b=document.createElement('button');b.className='nav-btn';b.dataset.p='admin';
+      b.textContent='⚙️ Адмін';b.onclick=()=>go('admin');nav.appendChild(b);
     }
     const rw=document.getElementById('rv-write');if(rw)rw.style.display='block';
   }else{
@@ -949,74 +871,33 @@ function updateHeader(){
   }
 }
 
-// ============ CABINET ============
+// CABINET
 async function loadCabinet(){
   if(!CP)return;
   const av=document.getElementById('cab-ava');
-  if(av){av.innerHTML=CP.avatar_url?`<img src="${esc(CP.avatar_url)}" alt="">`:((CP.full_name||'U')[0].toUpperCase());}
-  setT('cab-name',CP.full_name||'—');
-  setT('cab-email',CP.email||'—');
-  setT('cab-role',CP.role||'user');
+  if(av)av.innerHTML=CP.avatar_url?`<img src="${esc(CP.avatar_url)}" alt="">`:((CP.full_name||'U')[0].toUpperCase());
+  setT('cab-name',CP.full_name||'—');setT('cab-email',CP.email||'—');setT('cab-role',CP.role||'user');
   const si=document.getElementById('set-name');if(si)si.value=CP.full_name||'';
   const sp=document.getElementById('set-phone');if(sp)sp.value=CP.phone||'';
   const st=document.getElementById('set-telegram');if(st)st.value=CP.telegram||'';
 
-  const{data:bks}=await sb.from('bookings')
-    .select('*,trips(*)')
-    .eq('user_id',CU.id)
-    .eq('status','confirmed')
-    .order('created_at',{ascending:false});
-
+  const{data:bks}=await sb.from('bookings').select('*,trips(*)').eq('user_id',CU.id).eq('status','confirmed').order('created_at',{ascending:false});
   const bl=document.getElementById('bk-list');
   if(bl)bl.innerHTML=bks?.length
-    ? bks.map(b=>{
-        const t=b.trips;if(!t)return'';
-        return`<div class="bk-card">
-          <div style="flex:1">
-            <div style="font-weight:700;margin-bottom:4px">${esc(t.from_city)} → ${esc(t.to_city)}</div>
-            <div style="font-size:12px;color:var(--text2)">${fdu(t.trip_date)} · ${t.trip_time?.slice(0,5)} · ${b.seats_booked} місць · ${b.seats_booked*t.price} грн</div>
-          </div>
-          <span class="bst bst-ok">Підтверджено</span>
-          <button class="btn btn-danger btn-sm" onclick="cancelBk('${b.id}')">Скасувати</button>
-        </div>`;
-      }).join('')
-    : emptyEl('🎫','Немає активних бронювань','Забронюйте рейс на сторінці Рейси');
+    ?bks.map(b=>{const t=b.trips;if(!t)return'';return`<div class="bk-card"><div style="flex:1"><div style="font-weight:700;margin-bottom:4px">${esc(t.from_city)} → ${esc(t.to_city)}</div><div style="font-size:12px;color:var(--text2)">${fdu(t.trip_date)} · ${t.trip_time?.slice(0,5)} · ${b.seats_booked} місць · ${b.seats_booked*t.price} грн</div></div><span class="bst bst-ok">Підтверджено</span><button class="btn btn-danger btn-sm" onclick="cancelBk('${b.id}')">Скасувати</button></div>`;}).join('')
+    :emptyEl('🎫','Немає активних бронювань','');
 
-  const{data:hist}=await sb.from('bookings')
-    .select('*,trips(*)')
-    .eq('user_id',CU.id)
-    .eq('status','cancelled')
-    .order('created_at',{ascending:false});
-
+  const{data:hist}=await sb.from('bookings').select('*,trips(*)').eq('user_id',CU.id).eq('status','cancelled').order('created_at',{ascending:false});
   const hl=document.getElementById('hist-list');
   if(hl)hl.innerHTML=hist?.length
-    ? hist.map(b=>{
-        const t=b.trips;if(!t)return'';
-        return`<div class="bk-card">
-          <div style="flex:1">
-            <div style="font-weight:700;margin-bottom:4px">${esc(t.from_city)} → ${esc(t.to_city)}</div>
-            <div style="font-size:12px;color:var(--text2)">${fdu(t.trip_date)}</div>
-          </div>
-          <span class="bst bst-no">Скасовано</span>
-        </div>`;
-      }).join('')
-    : emptyEl('📋','Немає скасованих поїздок','');
+    ?hist.map(b=>{const t=b.trips;if(!t)return'';return`<div class="bk-card"><div style="flex:1"><div style="font-weight:700;margin-bottom:4px">${esc(t.from_city)} → ${esc(t.to_city)}</div><div style="font-size:12px;color:var(--text2)">${fdu(t.trip_date)}</div></div><span class="bst bst-no">Скасовано</span></div>`;}).join('')
+    :emptyEl('📋','Немає скасованих поїздок','');
 
-  const{data:cargo}=await sb.from('cargo_requests')
-    .select('*')
-    .eq('user_id',CU.id)
-    .order('created_at',{ascending:false});
-
+  const{data:cargo}=await sb.from('cargo_requests').select('*').eq('user_id',CU.id).order('created_at',{ascending:false});
   const cc=document.getElementById('cab-cargo');
   if(cc)cc.innerHTML=cargo?.length
-    ? cargo.map(c=>`<div class="bk-card">
-        <div style="flex:1">
-          <div style="font-weight:700;font-size:13px">${esc(c.from_city)} → ${esc(c.to_city)}</div>
-          <div style="font-size:11px;color:var(--text2);margin-top:3px">${fdu(c.cargo_date)}</div>
-        </div>
-        <span class="badge ${sbg(c.status)}">${sbl(c.status)}</span>
-      </div>`).join('')
-    : emptyEl('📦','Заявок немає','');
+    ?cargo.map(c=>`<div class="bk-card"><div style="flex:1"><div style="font-weight:700;font-size:13px">${esc(c.from_city)} → ${esc(c.to_city)}</div><div style="font-size:11px;color:var(--text2);margin-top:3px">${fdu(c.cargo_date)}</div></div><span class="badge ${sbg(c.status)}">${sbl(c.status)}</span></div>`).join('')
+    :emptyEl('📦','Заявок немає','');
 }
 
 async function cancelBk(id){
@@ -1036,13 +917,10 @@ function showCS(s){
 async function saveProfile(){
   const name=v('set-name'),phone=v('set-phone'),telegram=v('set-telegram');
   if(!name){toast('Введіть ПІБ','err');return;}
-  const{error}=await sb.from('users')
-    .update({full_name:name,phone:phone||null,telegram:telegram||null})
-    .eq('id',CU.id);
+  const{error}=await sb.from('users').update({full_name:name,phone:phone||null,telegram:telegram||null}).eq('id',CU.id);
   if(error){toast('Помилка','err');return;}
   CP.full_name=name;CP.phone=phone;CP.telegram=telegram;
-  updateHeader();setT('cab-name',name);
-  toast('✅ Збережено','ok');
+  updateHeader();setT('cab-name',name);toast('✅ Збережено','ok');
 }
 
 async function uploadAva(inp){
@@ -1057,7 +935,7 @@ async function uploadAva(inp){
   CP.avatar_url=url;updateHeader();loadCabinet();toast('✅ Аватар оновлено','ok');
 }
 
-// ============ CARGO ============
+// CARGO
 async function submitCargo(){
   if(!CU){openAuth('login');toast('Спочатку увійдіть','inf');return;}
   const date=v('c-date'),from=v('c-from'),to=v('c-to'),desc=v('c-desc');
@@ -1073,10 +951,12 @@ async function loadMyCargo(){
   if(!CU)return;
   const{data}=await sb.from('cargo_requests').select('*').eq('user_id',CU.id).order('created_at',{ascending:false});
   const el=document.getElementById('my-cargo');if(!el)return;
-  el.innerHTML=data?.length?data.map(c=>`<div class="bk-card" style="flex-wrap:wrap;gap:8px"><div style="flex:1;min-width:120px"><div style="font-weight:700;font-size:13px">${esc(c.from_city)} → ${esc(c.to_city)}</div><div style="font-size:11px;color:var(--text2);margin-top:3px">${fdu(c.cargo_date)}</div></div><span class="badge ${sbg(c.status)}">${sbl(c.status)}</span></div>`).join(''):`<div style="font-size:13px;color:var(--text2);padding:8px 0">Заявок ще немає</div>`;
+  el.innerHTML=data?.length
+    ?data.map(c=>`<div class="bk-card" style="flex-wrap:wrap;gap:8px"><div style="flex:1;min-width:120px"><div style="font-weight:700;font-size:13px">${esc(c.from_city)} → ${esc(c.to_city)}</div><div style="font-size:11px;color:var(--text2);margin-top:3px">${fdu(c.cargo_date)}</div></div><span class="badge ${sbg(c.status)}">${sbl(c.status)}</span></div>`).join('')
+    :`<div style="font-size:13px;color:var(--text2)">Заявок ще немає</div>`;
 }
 
-// ============ REVIEWS ============
+// REVIEWS
 function setStars(n){
   selStars=n;
   document.querySelectorAll('#star-pick span').forEach((s,i)=>s.classList.toggle('on',i<n));
@@ -1093,20 +973,10 @@ async function loadReviews(){
     const u=r.users,l=(u?.full_name||'U')[0].toUpperCase();
     const av=u?.avatar_url?`<img src="${esc(u.avatar_url)}" alt="">`:l;
     return`<div class="rv-card">
-      <div class="rv-head">
-        <div class="rv-ava">${av}</div>
-        <div>
-          <div style="font-weight:600;font-size:13px">${esc(u?.full_name||'Анонім')}</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:2px">${fdu(r.created_at?.slice(0,10))}</div>
-        </div>
-      </div>
+      <div class="rv-head"><div class="rv-ava">${av}</div><div><div style="font-weight:600;font-size:13px">${esc(u?.full_name||'Анонім')}</div><div style="font-size:11px;color:var(--text3);margin-top:2px">${fdu(r.created_at?.slice(0,10))}</div></div></div>
       <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
       <div style="font-size:13px;color:var(--text2);margin-top:8px;line-height:1.65">${esc(r.text)}</div>
-      ${r.admin_reply?`
-        <div style="margin-top:12px;padding:10px 12px;background:rgba(59,130,246,.07);border-left:3px solid var(--accent);border-radius:0 var(--r2) var(--r2) 0">
-          <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px">✅ ВІДПОВІДЬ АДМІНА</div>
-          <div style="font-size:13px;color:var(--text2)">${esc(r.admin_reply)}</div>
-        </div>`:''}
+      ${r.admin_reply?`<div style="margin-top:12px;padding:10px 12px;background:rgba(59,130,246,.07);border-left:3px solid var(--accent);border-radius:0 var(--r2) var(--r2) 0"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px">✅ ВІДПОВІДЬ АДМІНА</div><div style="font-size:13px;color:var(--text2)">${esc(r.admin_reply)}</div></div>`:''}
     </div>`;
   }).join('');
 }
@@ -1122,14 +992,14 @@ async function submitReview(){
   toast('✅ Відгук опубліковано!','ok');loadReviews();
 }
 
-// ============ CONTACT ============
+// CONTACT
 function sendMsg(){
   if(!v('ct-name')||!v('ct-con')||!v('ct-msg')){toast('Заповніть всі поля','err');return;}
   toast('✅ Повідомлення надіслано!','ok');
   ['ct-name','ct-con','ct-msg'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
 }
 
-// ============ ADMIN ============
+// ADMIN
 async function loadAdmin(){
   if(!CP||CP.role!=='admin'){go('home');toast('Доступ заборонено','err');return;}
   await Promise.all([loadAT(),loadAC(),loadAR(),loadAU()]);
@@ -1138,41 +1008,65 @@ async function loadAdmin(){
 async function loadAT(){
   const{data}=await sb.from('trips').select('*').order('trip_date').order('trip_time');
   const tb=document.getElementById('adm-trips');if(!tb)return;
-  if(!data||!data.length){
-    tb.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text2);padding:24px">Немає рейсів</td></tr>';
-    return;
-  }
-  tb.innerHTML=data.map(t=>`
-    <tr>
-      <td><strong>${esc(t.from_city)}</strong> → <strong>${esc(t.to_city)}</strong></td>
-      <td>${fdu(t.trip_date)}</td>
-      <td>${t.trip_time?.slice(0,5)}</td>
-      <td>${t.price} грн</td>
-      <td>${t.available_seats}/${t.total_seats}</td>
-      <td>
-        <button class="btn btn-secondary btn-sm" onclick="openTripPassengers('${t.id}','${esc(t.from_city)}','${esc(t.to_city)}','${t.trip_date}')">👥 Пасажири</button>
-        <button class="btn btn-secondary btn-sm" style="margin-left:4px" onclick="openEdit('${t.id}')">✏️</button>
-        <button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="delTrip('${t.id}')">🗑️</button>
-      </td>
-    </tr>`).join('');
+  tb.innerHTML=data?.map(t=>`<tr>
+    <td><strong>${esc(t.from_city)}</strong> → <strong>${esc(t.to_city)}</strong></td>
+    <td>${fdu(t.trip_date)}</td><td>${t.trip_time?.slice(0,5)}</td>
+    <td>${t.price} грн</td><td>${t.available_seats}/${t.total_seats}</td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-secondary btn-sm" onclick="openPassengers('${t.id}','${esc(t.from_city)}','${esc(t.to_city)}','${t.trip_date}')">👥</button>
+      <button class="btn btn-secondary btn-sm" onclick="openEdit('${t.id}')">✏️</button>
+      <button class="btn btn-danger btn-sm" onclick="delTrip('${t.id}')">🗑️</button>
+    </td>
+  </tr>`).join('')||'<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px">Немає рейсів</td></tr>';
 }
 
 async function loadAC(){
-  const{data}=await sb.from('cargo_requests').select('*,users(full_name)').order('created_at',{ascending:false});
+  const{data}=await sb.from('cargo_requests').select('*,users(full_name,phone,telegram)').order('created_at',{ascending:false});
   const tb=document.getElementById('adm-cargo');if(!tb)return;
-  tb.innerHTML=data?.map(c=>`<tr><td>${esc(c.from_city)} → ${esc(c.to_city)}<br><small style="color:var(--text2)">${esc(c.users?.full_name||'')}</small></td><td>${fdu(c.cargo_date)}</td><td style="max-width:160px;word-break:break-word">${esc(c.description?.slice(0,70))}${c.description?.length>70?'...':''}</td><td><span class="badge ${sbg(c.status)}">${sbl(c.status)}</span></td><td>${c.status==='pending'?`<button class="btn btn-success btn-sm" onclick="updCargo('${c.id}','confirmed')">✅</button><button class="btn btn-danger btn-sm" onclick="updCargo('${c.id}','rejected')">❌</button>`:''}</td></tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:var(--text2);padding:24px">Немає</td></tr>';
+  tb.innerHTML=data?.map(c=>`<tr>
+    <td>${esc(c.from_city)} → ${esc(c.to_city)}<br><small style="color:var(--text2)">${esc(c.users?.full_name||'')}${c.users?.phone?' · '+esc(c.users.phone):''}</small></td>
+    <td>${fdu(c.cargo_date)}</td>
+    <td style="max-width:160px;word-break:break-word">${esc(c.description?.slice(0,70))}${c.description?.length>70?'...':''}</td>
+    <td><span class="badge ${sbg(c.status)}">${sbl(c.status)}</span></td>
+    <td style="white-space:nowrap">${c.status==='pending'?`<button class="btn btn-success btn-sm" onclick="updCargo('${c.id}','confirmed')">✅</button><button class="btn btn-danger btn-sm" onclick="updCargo('${c.id}','rejected')">❌</button>`:''}</td>
+  </tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:var(--text2);padding:24px">Немає</td></tr>';
 }
 
 async function loadAR(){
   const{data}=await sb.from('reviews').select('*,users(full_name)').order('created_at',{ascending:false});
   const tb=document.getElementById('adm-rv');if(!tb)return;
-  tb.innerHTML=data?.map(r=>`<tr><td>${esc(r.users?.full_name||'—')}</td><td>${'★'.repeat(r.rating)}</td><td style="max-width:180px">${esc(r.text?.slice(0,70))}...</td><td>${r.is_visible?'✅':'❌'}</td><td><button class="btn btn-danger btn-sm" onclick="delRv('${r.id}')">🗑️</button><button class="btn btn-secondary btn-sm" style="margin-left:4px" onclick="togRv('${r.id}',${r.is_visible})">👁️</button></td></tr>`).join('')||'<tr><td colspan="5" style="text-align:center;padding:24px">Немає</td></tr>';
+  tb.innerHTML=data?.map(r=>{
+    const reviewText=encodeURIComponent(r.text||'');
+    const replyText=encodeURIComponent(r.admin_reply||'');
+    return`<tr>
+      <td>${esc(r.users?.full_name||'—')}</td>
+      <td>${'★'.repeat(r.rating)}</td>
+      <td style="max-width:160px">${esc(r.text?.slice(0,60))}...</td>
+      <td>${r.admin_reply?'<span style="color:var(--green);font-size:12px">✅ Є відповідь</span>':'<span style="color:var(--text3);font-size:12px">—</span>'}</td>
+      <td>${r.is_visible?'✅':'❌'}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-secondary btn-sm" onclick="openReply('${r.id}',decodeURIComponent('${reviewText}'),decodeURIComponent('${replyText}'))">💬</button>
+        <button class="btn btn-secondary btn-sm" onclick="togRv('${r.id}',${r.is_visible})">👁️</button>
+        <button class="btn btn-danger btn-sm" onclick="delRv('${r.id}')">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="6" style="text-align:center;padding:24px">Немає</td></tr>';
 }
 
 async function loadAU(){
   const{data}=await sb.from('users').select('*').order('created_at',{ascending:false});
   const tb=document.getElementById('adm-users');if(!tb)return;
-  tb.innerHTML=data?.map(u=>`<tr><td>${esc(u.full_name||'—')}</td><td>${esc(u.email||'—')}</td><td><span class="badge ${u.role==='admin'?'b-a':'b-u'}">${u.role}</span></td><td><span class="badge ${u.is_banned?'b-r':'b-c'}">${u.is_banned?'Заблокований':'Активний'}</span></td><td><button class="btn btn-danger btn-sm" onclick="togBan('${u.id}',${u.is_banned})">${u.is_banned?'Розблокувати':'Заблокувати'}</button></td></tr>`).join('')||'';
+  tb.innerHTML=data?.map(u=>`<tr>
+    <td>${esc(u.full_name||'—')}</td>
+    <td style="font-size:12px">${esc(u.email||'—')}</td>
+    <td style="font-size:12px">${u.phone?`📱 ${esc(u.phone)}<br>`:''}${u.telegram?`💬 ${esc(u.telegram)}`:'<span style="color:var(--text3)">—</span>'}</td>
+    <td><span class="badge ${u.role==='admin'?'b-a':'b-u'}">${u.role}</span></td>
+    <td><span class="badge ${u.is_banned?'b-r':'b-c'}">${u.is_banned?'Бан':'Активний'}</span></td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-secondary btn-sm" onclick="openUserProfile('${u.id}')">👤</button>
+      <button class="btn btn-danger btn-sm" onclick="togBan('${u.id}',${u.is_banned})">${u.is_banned?'Розблок.':'Бан'}</button>
+    </td>
+  </tr>`).join('')||'';
 }
 
 function showAS(s){
@@ -1186,39 +1080,15 @@ async function createTrip(){
   if(!CP||CP.role!=='admin'){toast('Немає прав','err');return;}
   const from=v('nt-from'),to=v('nt-to'),date=v('nt-date'),time=v('nt-time');
   const price=v('nt-price'),seats=v('nt-seats'),driver=v('nt-driver'),phone=v('nt-phone'),contact=v('nt-contact');
-  if(!from||!to||!date||!time||!price||!seats||!driver||!phone){
-    toast('Заповніть всі обов\'язкові поля','err');
-    return;
-  }
+  if(!from||!to||!date||!time||!price||!seats||!driver||!phone){toast('Заповніть всі обов\'язкові поля','err');return;}
   const s=parseInt(seats);
-  const insertData={
-    from_city:from,
-    to_city:to,
-    trip_date:date,
-    trip_time:time,
-    price:parseFloat(price),
-    total_seats:s,
-    available_seats:s,
-    driver_name:driver,
-    driver_phone:phone,
-    driver_contact:contact||null,
-    is_active:true
-  };
-  const{data,error}=await sb.from('trips').insert(insertData).select();
-  if(error){
-    toast('Помилка: '+error.message,'err');
-    console.error('Trip creation error:',error);
-    return;
-  }
+  const{error}=await sb.from('trips').insert({from_city:from,to_city:to,trip_date:date,trip_time:time,price:parseFloat(price),total_seats:s,available_seats:s,driver_name:driver,driver_phone:phone,driver_contact:contact||null,is_active:true});
+  if(error){toast('Помилка: '+error.message,'err');console.error(error);return;}
   toast('✅ Рейс створено!','ok');
-  // очищаємо форму
-  ['nt-from','nt-to','nt-date','nt-time','nt-price','nt-driver','nt-phone','nt-contact'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el)el.value='';
-  });
+  ['nt-from','nt-to','nt-date','nt-price','nt-driver','nt-phone','nt-contact'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
   document.getElementById('nt-seats').value='4';
-  showAS('trips');
-  await loadAT();
+  document.getElementById('nt-time').value='08:00';
+  showAS('trips');await loadAT();
 }
 
 async function delTrip(id){
@@ -1236,6 +1106,7 @@ async function delRv(id){if(!confirm('Видалити?'))return;await sb.from('
 async function togRv(id,cur){await sb.from('reviews').update({is_visible:!cur}).eq('id',id);toast(cur?'Приховано':'Показано','ok');loadAR();}
 async function togBan(id,cur){await sb.from('users').update({is_banned:!cur}).eq('id',id);toast(cur?'Розблоковано':'Заблоковано','ok');loadAU();}
 
+// EDIT TRIP
 async function openEdit(id){
   const{data:t}=await sb.from('trips').select('*').eq('id',id).single();if(!t)return;
   editTrip=t;
@@ -1247,21 +1118,137 @@ async function openEdit(id){
     <div class="fgrid2"><div class="fg"><label class="fl">Ціна</label><input type="number" class="fi" id="et-price" value="${t.price}"></div><div class="fg"><label class="fl">Вільних місць</label><input type="number" class="fi" id="et-seats" value="${t.available_seats}"></div></div>
     <div class="fgrid2"><div class="fg"><label class="fl">Водій</label><input type="text" class="fi" id="et-driver" value="${esc(t.driver_name)}"></div><div class="fg"><label class="fl">Телефон</label><input type="text" class="fi" id="et-phone" value="${esc(t.driver_phone)}"></div></div>
     <div class="fg"><label class="fl">Контакт</label><input type="text" class="fi" id="et-contact" value="${esc(t.driver_contact||'')}"></div>
-    <div style="margin-top:16px;display:flex;gap:10px"><button class="btn btn-primary" onclick="saveEdit()">💾 Зберегти</button><button class="btn btn-secondary" onclick="closeEdit()">Скасувати</button></div>`;
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-primary" onclick="saveEdit()">💾 Зберегти</button><button class="btn btn-secondary" onclick="closeEdit()">Скасувати</button></div>`;
   document.getElementById('edit-ov').classList.add('open');
 }
-
 async function saveEdit(){
   if(!editTrip)return;
   const{error}=await sb.from('trips').update({from_city:v('et-from'),to_city:v('et-to'),trip_date:v('et-date'),trip_time:v('et-time'),price:parseFloat(v('et-price')),available_seats:parseInt(v('et-seats')),driver_name:v('et-driver'),driver_phone:v('et-phone'),driver_contact:v('et-contact')}).eq('id',editTrip.id);
   if(error){toast('Помилка','err');return;}
   toast('✅ Оновлено!','ok');closeEdit();loadAT();
 }
-
 function closeEdit(){document.getElementById('edit-ov').classList.remove('open');editTrip=null;}
 function closeEditBg(e){if(e.target===document.getElementById('edit-ov'))closeEdit();}
 
-// ============ CITIES ============
+// PASSENGERS MODAL
+async function openPassengers(tripId,from,to,date){
+  setT('pass-title',`👥 ${from} → ${to} · ${fdu(date)}`);
+  document.getElementById('pass-content').innerHTML=`<div style="padding:24px;text-align:center;color:var(--text2)">Завантаження...</div>`;
+  document.getElementById('pass-ov').classList.add('open');
+
+  const{data:bks}=await sb.from('bookings').select('*,users(id,full_name,email,phone,telegram,avatar_url,is_banned)').eq('trip_id',tripId).eq('status','confirmed').order('created_at');
+
+  if(!bks||!bks.length){document.getElementById('pass-content').innerHTML=`<div style="padding:40px;text-align:center;color:var(--text2)">Бронювань ще немає</div>`;return;}
+
+  const totalSeats=bks.reduce((s,b)=>s+b.seats_booked,0);
+  document.getElementById('pass-content').innerHTML=`
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;margin-bottom:16px;display:flex;gap:24px;font-size:13px;flex-wrap:wrap">
+      <span>🎫 Бронювань: <strong>${bks.length}</strong></span>
+      <span>💺 Зайнято місць: <strong>${totalSeats}</strong></span>
+    </div>
+    ${bks.map(b=>{
+      const u=b.users;if(!u)return'';
+      const l=(u.full_name||'U')[0].toUpperCase();
+      const av=u.avatar_url?`<img src="${esc(u.avatar_url)}" alt="">`:l;
+      return`<div class="pass-row">
+        <div class="pass-ava">${av}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:14px;margin-bottom:4px">${esc(u.full_name||'—')}</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--text2)">
+            <span>✉️ ${esc(u.email||'—')}</span>
+            ${u.phone?`<span>📱 ${esc(u.phone)}</span>`:'<span style="color:var(--text3)">📱 не вказано</span>'}
+            ${u.telegram?`<span>💬 ${esc(u.telegram)}</span>`:'<span style="color:var(--text3)">💬 не вказано</span>'}
+          </div>
+          <div style="margin-top:6px"><span style="background:rgba(59,130,246,.12);color:var(--accent);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600">💺 ${b.seats_booked} місць</span></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+          <button class="btn btn-secondary btn-sm" onclick="openUserProfile('${u.id}')">👤 Профіль</button>
+          <button class="btn btn-danger btn-sm" onclick="kickUser('${b.id}','${tripId}')">🚫 Відмінити</button>
+          <button class="btn btn-danger btn-sm" onclick="banUserDirect('${u.id}')">⛔ Бан</button>
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+function closePass(){document.getElementById('pass-ov').classList.remove('open');}
+function closePassBg(e){if(e.target===document.getElementById('pass-ov'))closePass();}
+
+async function kickUser(bkId,tripId){
+  if(!confirm('Скасувати бронювання цього пасажира?'))return;
+  const{error}=await sb.from('bookings').update({status:'cancelled'}).eq('id',bkId);
+  if(error){toast('Помилка','err');return;}
+  toast('✅ Бронювання скасовано','ok');
+  loadAT();
+  // оновлюємо список пасажирів
+  const title=document.getElementById('pass-title').textContent;
+  // перезавантажуємо модалку
+  closePass();
+}
+
+async function banUserDirect(userId){
+  if(!confirm('Заблокувати користувача?'))return;
+  await sb.from('users').update({is_banned:true}).eq('id',userId);
+  toast('✅ Заблоковано','ok');loadAU();
+}
+
+// USER PROFILE MODAL
+async function openUserProfile(userId){
+  document.getElementById('profile-content').innerHTML=`<div style="padding:24px;text-align:center;color:var(--text2)">Завантаження...</div>`;
+  document.getElementById('profile-ov').classList.add('open');
+  const{data:u}=await sb.from('users').select('*').eq('id',userId).single();
+  if(!u){document.getElementById('profile-content').innerHTML='<div style="padding:24px;text-align:center;color:var(--red)">Не знайдено</div>';return;}
+  const{data:bks}=await sb.from('bookings').select('*,trips(from_city,to_city,trip_date)').eq('user_id',userId).order('created_at',{ascending:false}).limit(5);
+  const l=(u.full_name||'U')[0].toUpperCase();
+  const av=u.avatar_url?`<img src="${esc(u.avatar_url)}" alt="" style="width:100%;height:100%;object-fit:cover">`:l;
+  document.getElementById('profile-content').innerHTML=`
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--bg3);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:var(--accent);overflow:hidden;flex-shrink:0">${av}</div>
+      <div>
+        <div style="font-size:18px;font-weight:700">${esc(u.full_name||'—')}</div>
+        <div style="font-size:13px;color:var(--text2);margin-top:3px">${esc(u.email||'—')}</div>
+        <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap">
+          <span class="badge ${u.role==='admin'?'b-a':'b-u'}">${u.role}</span>
+          <span class="badge ${u.is_banned?'b-r':'b-c'}">${u.is_banned?'Заблокований':'Активний'}</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Контакти</div>
+      <div style="display:flex;flex-direction:column;gap:7px;font-size:13px">
+        <div>📱 ${u.phone?`<span>${esc(u.phone)}</span>`:'<span style="color:var(--text3)">не вказано</span>'}</div>
+        <div>💬 ${u.telegram?`<span>${esc(u.telegram)}</span>`:'<span style="color:var(--text3)">не вказано</span>'}</div>
+      </div>
+    </div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">Останні бронювання</div>
+    ${bks?.length?bks.map(b=>{const t=b.trips;if(!t)return'';return`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:10px 12px;margin-bottom:7px;font-size:13px;display:flex;justify-content:space-between;align-items:center"><span>${esc(t.from_city)} → ${esc(t.to_city)}</span><span style="color:var(--text2)">${fdu(t.trip_date)}</span><span class="badge ${b.status==='confirmed'?'b-c':'b-r'}">${b.status==='confirmed'?'Підтверджено':'Скасовано'}</span></div>`;}).join(''):'<div style="color:var(--text2);font-size:13px">Бронювань немає</div>'}
+    <div style="margin-top:16px;display:flex;gap:10px">
+      <button class="btn btn-danger" onclick="banUserDirect('${u.id}');closeProfile()">${u.is_banned?'⛔ Розблокувати':'⛔ Заблокувати'}</button>
+    </div>`;
+}
+function closeProfile(){document.getElementById('profile-ov').classList.remove('open');}
+function closeProfileBg(e){if(e.target===document.getElementById('profile-ov'))closeProfile();}
+
+// REPLY TO REVIEW
+function openReply(reviewId,reviewText,currentReply){
+  replyReviewId=reviewId;
+  const rt=document.getElementById('reply-review-text');
+  if(rt)rt.textContent=reviewText;
+  const ta=document.getElementById('reply-text');
+  if(ta)ta.value=currentReply||'';
+  document.getElementById('reply-ov').classList.add('open');
+}
+async function saveReply(clear){
+  if(!replyReviewId)return;
+  const text=clear?null:v('reply-text');
+  if(!clear&&!text){toast('Напишіть відповідь','err');return;}
+  const{error}=await sb.from('reviews').update({admin_reply:text,admin_reply_at:clear?null:new Date().toISOString()}).eq('id',replyReviewId);
+  if(error){toast('Помилка','err');return;}
+  toast(clear?'Відповідь видалено':'✅ Відповідь збережено','ok');
+  closeReply();loadAR();
+}
+function closeReply(){document.getElementById('reply-ov').classList.remove('open');replyReviewId=null;}
+function closeReplyBg(e){if(e.target===document.getElementById('reply-ov'))closeReply();}
+
+// CITIES
 function fillCities(){
   ['c-from','c-to','nt-from','nt-to'].forEach(id=>{
     const el=document.getElementById(id);if(!el)return;
@@ -1270,187 +1257,24 @@ function fillCities(){
   });
 }
 
-// ============ MOBILE ============
 function toggleMob(){document.getElementById('mob-menu').classList.toggle('open');}
 function closeMob(){document.getElementById('mob-menu').classList.remove('open');}
 
-// ============ TOAST ============
 function toast(msg,type='ok'){
   const con=document.getElementById('toasts');
   const el=document.createElement('div');el.className=`toast t-${type}`;el.textContent=msg;
   con.appendChild(el);setTimeout(()=>el.remove(),3500);
 }
 
-// ============ HELPERS ============
 function v(id){const e=document.getElementById(id);return e?e.value.trim():'';}
 function setT(id,txt){const e=document.getElementById(id);if(e)e.textContent=txt;}
 function fd(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return`${y}-${m}-${day}`;}
-function fdu(ds){if(!ds)return'—';const d=new Date(ds+'T00:00:00');return d.toLocaleDateString('uk-UA',{day:'numeric',month:'long'});}
-function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fdu(ds){if(!ds)return'—';try{const d=new Date(ds+'T00:00:00');return d.toLocaleDateString('uk-UA',{day:'numeric',month:'long'});}catch{return ds;}}
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function emptyEl(ico,title,sub){return`<div style="padding:32px 16px;text-align:center"><div style="font-size:40px;margin-bottom:12px;color:var(--text3)">${ico}</div><div style="font-size:15px;font-weight:600;margin-bottom:5px">${title}</div>${sub?`<div style="font-size:13px;color:var(--text2)">${sub}</div>`:''}</div>`;}
 function sbg(s){if(s==='confirmed')return'b-c';if(s==='rejected')return'b-r';return'b-p';}
 function sbl(s){if(s==='confirmed')return'Підтверджено';if(s==='rejected')return'Відхилено';return'На розгляді';}
 
-// ============ ADMIN — PASSENGERS MODAL ============
-async function openTripPassengers(tripId, from, to, date){
-  // створюємо модалку якщо не існує
-  let modal=document.getElementById('passengers-ov');
-  if(!modal){
-    modal=document.createElement('div');
-    modal.className='overlay';modal.id='passengers-ov';
-    modal.onclick=function(e){if(e.target===modal)modal.classList.remove('open')};
-    modal.innerHTML=`<div class="modal modal-wide" style="max-width:700px">
-      <div class="mh">
-        <div class="mt" id="pass-title">Пасажири</div>
-        <button class="mx" onclick="document.getElementById('passengers-ov').classList.remove('open')">✕</button>
-      </div>
-      <div id="pass-content"></div>
-    </div>`;
-    document.body.appendChild(modal);
-  }
-
-  setT('pass-title',`Пасажири: ${from} → ${to} · ${fdu(date)}`);
-  document.getElementById('pass-content').innerHTML=`<div style="padding:24px;text-align:center;color:var(--text2)">Завантаження...</div>`;
-  modal.classList.add('open');
-
-  const{data:bookings}=await sb.from('bookings')
-    .select('*,users(id,full_name,email,phone,telegram,avatar_url,is_banned)')
-    .eq('trip_id',tripId)
-    .eq('status','confirmed')
-    .order('created_at');
-
-  if(!bookings||!bookings.length){
-    document.getElementById('pass-content').innerHTML=`<div style="padding:40px;text-align:center;color:var(--text2)">Бронювань ще немає</div>`;
-    return;
-  }
-
-  const totalSeats=bookings.reduce((s,b)=>s+b.seats_booked,0);
-
-  document.getElementById('pass-content').innerHTML=`
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;margin-bottom:16px;display:flex;gap:24px;font-size:13px">
-      <span>👥 Всього бронювань: <strong>${bookings.length}</strong></span>
-      <span>💺 Зайнято місць: <strong>${totalSeats}</strong></span>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      ${bookings.map(b=>{
-        const u=b.users;if(!u)return'';
-        const letter=(u.full_name||'U')[0].toUpperCase();
-        const av=u.avatar_url?`<img src="${esc(u.avatar_url)}" alt="">`:letter;
-        return`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:14px">
-          <div style="width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);overflow:hidden;flex-shrink:0">${av}</div>
-          <div style="flex:1;min-width:0">
-            <div style="font-weight:700;font-size:14px;margin-bottom:4px">${esc(u.full_name||'—')}</div>
-            <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--text2)">
-              <span>✉️ ${esc(u.email||'—')}</span>
-              ${u.phone?`<span>📱 ${esc(u.phone)}</span>`:'<span style="color:var(--text3)">📱 не вказано</span>'}
-              ${u.telegram?`<span>💬 ${esc(u.telegram)}</span>`:'<span style="color:var(--text3)">💬 не вказано</span>'}
-            </div>
-            <div style="margin-top:5px;font-size:12px">
-              <span style="background:rgba(59,130,246,.12);color:var(--accent);padding:2px 8px;border-radius:20px;font-weight:600">💺 ${b.seats_booked} місць</span>
-              <span style="color:var(--text2);margin-left:8px">Сума: ${b.seats_booked*0} грн</span>
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
-            <button class="btn btn-danger btn-sm" onclick="kickFromTrip('${b.id}','${tripId}')">🚫 Відмінити</button>
-            <button class="btn btn-danger btn-sm" style="background:rgba(239,68,68,.2)" onclick="banUser('${u.id}')">⛔ Бан</button>
-          </div>
-        </div>`;
-      }).join('')}
-    </div>`;
-}
-
-async function kickFromTrip(bookingId, tripId){
-  if(!confirm('Скасувати бронювання цього пасажира?'))return;
-  const{error}=await sb.from('bookings').update({status:'cancelled'}).eq('id',bookingId);
-  if(error){toast('Помилка','err');return;}
-  toast('✅ Бронювання скасовано','ok');
-  // оновлюємо список
-  const modal=document.getElementById('passengers-ov');
-  if(modal){
-    const title=document.getElementById('pass-title').textContent;
-    // просто перезавантажуємо
-    const btn=modal.querySelector(`button[onclick*="${bookingId}"]`);
-    if(btn){const row=btn.closest('div[style*="flex:1"]')?.parentElement;if(row)row.remove();}
-  }
-  loadAT();
-}
-
-async function banUser(userId){
-  if(!confirm('Заблокувати цього користувача?'))return;
-  const{error}=await sb.from('users').update({is_banned:true}).eq('id',userId);
-  if(error){toast('Помилка','err');return;}
-  toast('✅ Користувача заблоковано','ok');
-  loadAU();
-}
-
-// ============ ADMIN — REPLY TO REVIEWS ============
-async function loadAR(){
-  const{data}=await sb.from('reviews')
-    .select('*,users(full_name)')
-    .order('created_at',{ascending:false});
-  const tb=document.getElementById('adm-rv');if(!tb)return;
-  tb.innerHTML=data?.map(r=>`
-    <tr>
-      <td>${esc(r.users?.full_name||'—')}</td>
-      <td>${'★'.repeat(r.rating)}</td>
-      <td style="max-width:160px">${esc(r.text?.slice(0,60))}...</td>
-      <td>${r.admin_reply
-        ? `<span style="color:var(--green);font-size:12px">✅ ${esc(r.admin_reply.slice(0,40))}...</span>`
-        : '<span style="color:var(--text3);font-size:12px">Немає</span>'}</td>
-      <td>${r.is_visible?'✅':'❌'}</td>
-      <td>
-        <button class="btn btn-secondary btn-sm" onclick="openReplyModal('${r.id}','${esc(r.admin_reply||'')}')">💬 Відповісти</button>
-        <button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="delRv('${r.id}')">🗑️</button>
-        <button class="btn btn-secondary btn-sm" style="margin-left:4px" onclick="togRv('${r.id}',${r.is_visible})">👁️</button>
-      </td>
-    </tr>`).join('')
-  ||'<tr><td colspan="6" style="text-align:center;padding:24px">Немає</td></tr>';
-}
-
-function openReplyModal(reviewId, currentReply){
-  let modal=document.getElementById('reply-ov');
-  if(!modal){
-    modal=document.createElement('div');
-    modal.className='overlay';modal.id='reply-ov';
-    modal.onclick=function(e){if(e.target===modal)modal.classList.remove('open')};
-    modal.innerHTML=`<div class="modal">
-      <div class="mh">
-        <div class="mt">Відповідь на відгук</div>
-        <button class="mx" onclick="document.getElementById('reply-ov').classList.remove('open')">✕</button>
-      </div>
-      <div class="fg">
-        <label class="fl">Ваша відповідь</label>
-        <textarea class="fi" id="reply-text" placeholder="Напишіть відповідь..." style="min-height:100px"></textarea>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button class="btn btn-primary" onclick="saveReply()">✅ Зберегти відповідь</button>
-        <button class="btn btn-danger btn-sm" onclick="saveReply(true)">🗑️ Видалити відповідь</button>
-      </div>
-    </div>`;
-    document.body.appendChild(modal);
-  }
-  modal._reviewId=reviewId;
-  const ta=document.getElementById('reply-text');
-  if(ta)ta.value=currentReply||'';
-  modal.classList.add('open');
-}
-
-async function saveReply(clear=false){
-  const modal=document.getElementById('reply-ov');if(!modal)return;
-  const reviewId=modal._reviewId;
-  const text=clear?null:v('reply-text');
-  if(!clear&&!text){toast('Напишіть відповідь','err');return;}
-  const{error}=await sb.from('reviews').update({
-    admin_reply:text,
-    admin_reply_at:clear?null:new Date().toISOString()
-  }).eq('id',reviewId);
-  if(error){toast('Помилка','err');return;}
-  toast(clear?'Відповідь видалено':'✅ Відповідь збережено','ok');
-  modal.classList.remove('open');
-  loadAR();
-}
-  
-// ============ START ============
 init();
 </script>
 </body>
