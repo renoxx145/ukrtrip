@@ -760,7 +760,7 @@ function openBook(id,e){
       <span>💺 Вільно: ${t.available_seats}</span>
     </div>`;
   // будуємо селект кількості місць
-  const max=Math.min(t.available_seats,4);
+  const max=t.available_seats;
   let opts='';
   for(let i=1;i<=max;i++) opts+=`<option value="${i}">${i} місце${i===1?'':'${i<5?"ця":"ць"}'}</option>`;
   // простіше так:
@@ -810,18 +810,17 @@ async function confirmBook(){
 
   // перевіряємо чи вже є бронювання на цей рейс
     // перевіряємо скільки місць вже заброньовано
-  const{data:existing}=await sb.from('bookings')
-    .select('id,seats_booked')
-    .eq('user_id',CU.id)
-    .eq('trip_id',bookTrip.id)
-    .eq('status','confirmed');
+    // перевіряємо актуальну кількість вільних місць прямо з бази
+  const{data:freshTrip}=await sb.from('trips')
+    .select('available_seats')
+    .eq('id',bookTrip.id)
+    .single();
 
-  const alreadyBooked=existing?.reduce((sum,b)=>sum+b.seats_booked,0)||0;
-  const totalWanted=alreadyBooked+seatsCount;
+  const realAvailable=freshTrip?.available_seats??0;
 
-  if(totalWanted>bookTrip.available_seats){
+  if(seatsCount>realAvailable){
     btn.disabled=false;btn.textContent='✅ Підтвердити бронювання';
-    toast(`Недостатньо місць. Вільно: ${bookTrip.available_seats}`,'err');
+    toast(`Недостатньо місць. Вільно: ${realAvailable}`,'err');
     return;
   }
 
