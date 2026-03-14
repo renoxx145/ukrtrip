@@ -488,12 +488,21 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
         <div class="csec" id="cs-hist"><div style="font-size:16px;font-weight:700;margin-bottom:14px">Історія поїздок</div><div id="hist-list"></div></div>
         <div class="csec" id="cs-cargo"><div style="font-size:16px;font-weight:700;margin-bottom:14px">Мої заявки на вантаж</div><div id="cab-cargo"></div></div>
         <div class="csec" id="cs-settings">
-          <div style="font-size:16px;font-weight:700;margin-bottom:16px">Налаштування</div>
-          <div class="card" style="max-width:420px">
-            <div class="fg"><label class="fl">ПІБ</label><input type="text" class="fi" id="set-name"></div>
-            <button class="btn btn-primary" onclick="saveProfile()">Зберегти</button>
-          </div>
-        </div>
+  <div style="font-size:16px;font-weight:700;margin-bottom:16px">Налаштування</div>
+  <div class="card" style="max-width:420px">
+    <div class="fg"><label class="fl">ПІБ</label><input type="text" class="fi" id="set-name"></div>
+    <div class="fg">
+      <label class="fl">Номер телефону</label>
+      <input type="tel" class="fi" id="set-phone" placeholder="+380...">
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Щоб з вами зв'язався адмін або водій</div>
+    </div>
+    <div class="fg">
+      <label class="fl">Telegram</label>
+      <input type="text" class="fi" id="set-telegram" placeholder="@username">
+    </div>
+    <button class="btn btn-primary" onclick="saveProfile()">Зберегти</button>
+  </div>
+</div>
       </div>
     </div>
   </div>
@@ -949,6 +958,8 @@ async function loadCabinet(){
   if(av){av.innerHTML=CP.avatar_url?`<img src="${esc(CP.avatar_url)}" alt="">`:((CP.full_name||'U')[0].toUpperCase());}
   setT('cab-name',CP.full_name||'—');setT('cab-email',CP.email||'—');setT('cab-role',CP.role||'user');
   const si=document.getElementById('set-name');if(si)si.value=CP.full_name||'';
+  const sp=document.getElementById('set-phone');if(sp)sp.value=CP.phone||'';
+  const st=document.getElementById('set-telegram');if(st)st.value=CP.telegram||'';
 
   const{data:bks}=await sb.from('bookings').select('*,trips(*)').eq('user_id',CU.id).eq('status','confirmed').order('created_at',{ascending:false});
   const bl=document.getElementById('bk-list');
@@ -978,10 +989,22 @@ function showCS(s){
 }
 
 async function saveProfile(){
-  const name=v('set-name');if(!name){toast('Введіть ПІБ','err');return;}
-  const{error}=await sb.from('users').update({full_name:name}).eq('id',CU.id);
+  const name=v('set-name');
+  if(!name){toast('Введіть ПІБ','err');return;}
+  const phone=v('set-phone');
+  const telegram=v('set-telegram');
+  const{error}=await sb.from('users').update({
+    full_name:name,
+    phone:phone||null,
+    telegram:telegram||null
+  }).eq('id',CU.id);
   if(error){toast('Помилка','err');return;}
-  CP.full_name=name;updateHeader();setT('cab-name',name);toast('✅ Збережено','ok');
+  CP.full_name=name;
+  CP.phone=phone;
+  CP.telegram=telegram;
+  updateHeader();
+  setT('cab-name',name);
+  toast('✅ Збережено','ok');
 }
 
 async function uploadAva(inp){
@@ -1024,12 +1047,42 @@ function setStars(n){
 async function loadReviews(){
   const con=document.getElementById('rv-con');if(!con)return;
   const{data}=await sb.from('reviews').select('*,users(full_name,avatar_url)').eq('is_visible',true).order('created_at',{ascending:false});
-  if(!data||!data.length){con.innerHTML=`<div style="grid-column:1/-1;padding:60px 24px;text-align:center"><div style="font-size:48px;margin-bottom:14px;color:var(--text3)">⭐</div><div style="font-size:16px;font-weight:600">Відгуків ще немає</div><div style="font-size:14px;color:var(--text2);margin-top:6px">Будьте першим!</div></div>`;return;}
+  if(!data||!data.length){
+    con.innerHTML=`<div style="grid-column:1/-1;padding:60px 24px;text-align:center"><div style="font-size:48px;margin-bottom:14px;color:var(--text3)">⭐</div><div style="font-size:16px;font-weight:600">Відгуків ще немає</div><div style="font-size:14px;color:var(--text2);margin-top:6px">Будьте першим!</div></div>`;
+    return;
+  }
   con.innerHTML=data.map(r=>{
-    const u=r.users,l=(u?.full_name||'U')[0].toUpperCase();
+    const u=r.users;
+    const l=(u?.full_name||'U')[0].toUpperCase();
     const av=u?.avatar_url?`<img src="${esc(u.avatar_url)}" alt="">`:l;
-    return`<div class="rv-card"><div class="rv-head"><div class="rv-ava">${av}</div><div><div style="font-weight:600;font-size:13px">${esc(u?.full_name||'Анонім')}</div><div style="font-size:11px;color:var(--text3);margin-top:2px">${fdu(r.created_at?.slice(0,10))}</div></div></div><div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><div style="font-size:13px;color:var(--text2);margin-top:8px;line-height:1.65">${esc(r.text)}</div></div>`;
+    const isOwner=CU&&r.user_id===CU.id;
+    const isAdmin=CP&&CP.role==='admin';
+    return`<div class="rv-card">
+      <div class="rv-head">
+        <div class="rv-ava">${av}</div>
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:13px">${esc(u?.full_name||'Анонім')}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">${fdu(r.created_at?.slice(0,10))}</div>
+        </div>
+        ${isOwner||isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteReview('${r.id}')">🗑️</button>`:''}
+      </div>
+      <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:8px;line-height:1.65">${esc(r.text)}</div>
+      ${r.admin_reply?`
+        <div style="margin-top:12px;padding:10px 12px;background:rgba(59,130,246,.07);border-left:3px solid var(--accent);border-radius:0 var(--r2) var(--r2) 0">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px">✅ ВІДПОВІДЬ АДМІНА</div>
+          <div style="font-size:13px;color:var(--text2)">${esc(r.admin_reply)}</div>
+        </div>`:''}
+    </div>`;
   }).join('');
+}
+
+async function deleteReview(id){
+  if(!confirm('Видалити відгук?'))return;
+  const{error}=await sb.from('reviews').delete().eq('id',id);
+  if(error){toast('Помилка','err');return;}
+  toast('Відгук видалено','ok');
+  loadReviews();
 }
 
 async function submitReview(){
