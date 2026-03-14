@@ -1080,9 +1080,13 @@ async function loadReviews(){
 async function deleteReview(id){
   if(!confirm('Видалити відгук?'))return;
   const{error}=await sb.from('reviews').delete().eq('id',id);
-  if(error){toast('Помилка','err');return;}
+  if(error){
+    console.error('Delete review error:',error);
+    toast('Помилка: '+error.message,'err');
+    return;
+  }
   toast('Відгук видалено','ok');
-  loadReviews();
+  await loadReviews();
 }
 
 async function submitReview(){
@@ -1124,7 +1128,26 @@ async function loadAC(){
 async function loadAR(){
   const{data}=await sb.from('reviews').select('*,users(full_name)').order('created_at',{ascending:false});
   const tb=document.getElementById('adm-rv');if(!tb)return;
-  tb.innerHTML=data?.map(r=>`<tr><td>${esc(r.users?.full_name||'—')}</td><td>${'★'.repeat(r.rating)}</td><td style="max-width:180px">${esc(r.text?.slice(0,70))}...</td><td>${r.is_visible?'✅':'❌'}</td><td><button class="btn btn-danger btn-sm" onclick="delRv('${r.id}')">🗑️</button><button class="btn btn-secondary btn-sm" style="margin-left:4px" onclick="togRv('${r.id}',${r.is_visible})">👁️</button></td></tr>`).join('')||'<tr><td colspan="5" style="text-align:center;padding:24px">Немає</td></tr>';
+  if(!data||!data.length){
+    tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text2)">Відгуків немає</td></tr>';
+    return;
+  }
+  tb.innerHTML=data.map(r=>{
+    const reviewEnc=encodeURIComponent(r.text||'');
+    const replyEnc=encodeURIComponent(r.admin_reply||'');
+    return`<tr>
+      <td>${esc(r.users?.full_name||'—')}</td>
+      <td>${'★'.repeat(r.rating)}</td>
+      <td style="max-width:160px">${esc(r.text?.slice(0,60))}...</td>
+      <td>${r.admin_reply?'<span style="color:var(--green);font-size:12px">✅ Є</span>':'<span style="color:var(--text3);font-size:12px">—</span>'}</td>
+      <td>${r.is_visible?'✅':'❌'}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-secondary btn-sm" onclick="openReply('${r.id}',decodeURIComponent('${reviewEnc}'),decodeURIComponent('${replyEnc}'))">💬</button>
+        <button class="btn btn-secondary btn-sm" onclick="togRv('${r.id}',${r.is_visible})">👁️</button>
+        <button class="btn btn-danger btn-sm" onclick="delRv('${r.id}')">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('');
 }
 
 async function loadAU(){
