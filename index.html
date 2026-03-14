@@ -751,28 +751,109 @@ function openBook(id,e){
   const t=allTrips.find(x=>x.id===id);if(!t)return;
   bookTrip=t;
   const d=new Date(t.trip_date);
-  document.getElementById('book-info').innerHTML=`<div style="font-weight:700;font-size:15px;margin-bottom:8px">${esc(t.from_city)} → ${esc(t.to_city)}</div><div style="display:flex;gap:16px;font-size:13px;color:var(--text2)"><span>📅 ${d.toLocaleDateString('uk-UA',{day:'numeric',month:'long'})}</span><span>🕐 ${t.trip_time?.slice(0,5)}</span><span>💰 ${t.price} грн</span></div>`;
+  document.getElementById('book-info').innerHTML=`
+    <div style="font-weight:700;font-size:15px;margin-bottom:8px">${esc(t.from_city)} → ${esc(t.to_city)}</div>
+    <div style="display:flex;gap:16px;font-size:13px;color:var(--text2)">
+      <span>📅 ${d.toLocaleDateString('uk-UA',{day:'numeric',month:'long'})}</span>
+      <span>🕐 ${t.trip_time?.slice(0,5)}</span>
+      <span>💰 ${t.price} грн/місце</span>
+      <span>💺 Вільно: ${t.available_seats}</span>
+    </div>`;
+  // будуємо селект кількості місць
+  const max=Math.min(t.available_seats,4);
+  let opts='';
+  for(let i=1;i<=max;i++) opts+=`<option value="${i}">${i} місце${i===1?'':'${i<5?"ця":"ць"}'}</option>`;
+  // простіше так:
+  const labels={1:'місце',2:'місця',3:'місця',4:'місця'};
+  let optsHtml='';
+  for(let i=1;i<=max;i++) optsHtml+=`<option value="${i}">${i} ${labels[i]||'місць'}</option>`;
+
   document.getElementById('book-reveal').style.display='none';
   document.getElementById('book-form').style.display='block';
+  document.getElementById('book-form').innerHTML=`
+    <div style="margin-bottom:16px">
+      <label style="display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:7px;text-transform:uppercase;letter-spacing:.3px">Кількість місць</label>
+      <select class="fi" id="book-seats-count" onchange="updateBookTotal()" style="max-width:200px">
+        ${optsHtml}
+      </select>
+    </div>
+    <div id="book-total" style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;margin-bottom:16px;font-size:14px">
+      До сплати: <strong style="color:var(--accent)">${t.price} грн</strong>
+    </div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Оплата безпосередньо водію готівкою або карткою.</p>
+    <button class="btn btn-primary btn-full" id="book-btn" onclick="confirmBook()">✅ Підтвердити бронювання</button>`;
   document.getElementById('book-ov').classList.add('open');
 }
+
+function updateBookTotal(){
+  if(!bookTrip)return;
+  const sel=document.getElementById('book-seats-count');
+  if(!sel)return;
+  const n=parseInt(sel.value);
+  const total=n*bookTrip.price;
+  const el=document.getElementById('book-total');
+  if(el)el.innerHTML=`До сплати: <strong style="color:var(--accent)">${total} грн</strong> <span style="color:var(--text2);font-size:12px">(${n} × ${bookTrip.price} грн)</span>`;
+}  
 
 async function confirmBook(){
   if(!bookTrip||!CU)return;
   const btn=document.getElementById('book-btn');
-  btn.disabled=true;btn.textContent='Бронювання...';
-  if(bookTrip.available_seats<=0){toast('Місця закінчились','err');closeBook();return;}
-  const{error}=await sb.from('bookings').insert({user_id:CU.id,trip_id:bookTrip.id,seats_booked:1,status:'confirmed'});
-  btn.disabled=false;btn.textContent='✅ Підтвердити бронювання';
-  if(error){
-    if(error.code==='23505')toast('Ви вже забронювали цей рейс','inf');
-    else toast('Помилка: '+error.message,'err');
+  const sel=document.getElementById('book-seats-count');
+  const seatsCount=sel?parseInt(sel.value):1;
+
+  if(seatsCount>bookTrip.available_seats){
+    toast(`Доступно лише ${bookTrip.available_seats} місць','err`);
     return;
   }
-  toast('✅ Місце заброньовано!','ok');
+
+  btn.disabled=true;btn.textContent='Бронювання...';
+
+  // перевіряємо чи вже є бронювання на цей рейс
+  const{data:existing}=await sb.from('bookings')
+    .select('id,seats_booked')
+    .eq('user_id',CU.id)
+    .eq('trip_id',bookTrip.id)
+    .eq('status','confirmed')
+    .single();
+
+  if(existing){
+    btn.disabled=false;btn.textContent='✅ Підтвердити бронювання';
+    toast('Ви вже забронювали цей рейс','inf');
+    return;
+  }
+
+  const{error}=await sb.from('bookings').insert({
+    user_id:CU.id,
+    trip_id:bookTrip.id,
+    seats_booked:seatsCount,
+    status:'confirmed'
+  });
+
+  btn.disabled=false;btn.textContent='✅ Підтвердити бронювання';
+
+  if(error){
+    toast('Помилка: '+error.message,'err');
+    console.error(error);
+    return;
+  }
+
+  const total=seatsCount*bookTrip.price;
+  toast(`✅ Заброньовано ${seatsCount} місць!`,'ok');
   document.getElementById('book-form').style.display='none';
   document.getElementById('book-reveal').style.display='block';
-  document.getElementById('book-reveal').innerHTML=`<div class="driver-reveal"><div style="font-size:12px;color:var(--text2);margin-bottom:8px">🎉 Підтверджено! Контакт водія:</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">${esc(bookTrip.driver_name)}</div><div style="font-size:22px;font-weight:700;color:var(--accent)">${esc(bookTrip.driver_phone)}</div>${bookTrip.driver_contact?`<div style="font-size:13px;color:var(--text2);margin-top:5px">${esc(bookTrip.driver_contact)}</div>`:''}</div>`;
+  document.getElementById('book-reveal').innerHTML=`
+    <div class="driver-reveal">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px">🎉 Підтверджено!</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:4px">
+        ${seatsCount} місць × ${bookTrip.price} грн = <span style="color:var(--accent)">${total} грн</span>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:12px">Оплата водію при посадці</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:4px">Контакт водія:</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:4px">${esc(bookTrip.driver_name)}</div>
+      <div style="font-size:20px;font-weight:700;color:var(--accent)">${esc(bookTrip.driver_phone)}</div>
+      ${bookTrip.driver_contact?`<div style="font-size:13px;color:var(--text2);margin-top:5px">${esc(bookTrip.driver_contact)}</div>`:''}
+    </div>`;
+
   if(selDate)loadTrips(selDate);
 }
 
