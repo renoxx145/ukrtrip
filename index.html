@@ -809,16 +809,19 @@ async function confirmBook(){
   btn.disabled=true;btn.textContent='Бронювання...';
 
   // перевіряємо чи вже є бронювання на цей рейс
+    // перевіряємо скільки місць вже заброньовано
   const{data:existing}=await sb.from('bookings')
     .select('id,seats_booked')
     .eq('user_id',CU.id)
     .eq('trip_id',bookTrip.id)
-    .eq('status','confirmed')
-    .single();
+    .eq('status','confirmed');
 
-  if(existing){
+  const alreadyBooked=existing?.reduce((sum,b)=>sum+b.seats_booked,0)||0;
+  const totalWanted=alreadyBooked+seatsCount;
+
+  if(totalWanted>bookTrip.available_seats){
     btn.disabled=false;btn.textContent='✅ Підтвердити бронювання';
-    toast('Ви вже забронювали цей рейс','inf');
+    toast(`Недостатньо місць. Вільно: ${bookTrip.available_seats}`,'err');
     return;
   }
 
