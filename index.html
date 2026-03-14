@@ -697,8 +697,16 @@ async function loadTrips(ds){
   ttl.style.display='block';
   const d=new Date(ds);
   ttl.textContent='Рейси на '+d.toLocaleDateString('uk-UA',{day:'numeric',month:'long',year:'numeric'});
-  const{data,error}=await sb.from('trips').select('*').eq('trip_date',ds).eq('is_active',true).order('trip_time');
-  if(error){list.innerHTML=`<div style="padding:24px;text-align:center;color:var(--red)">Помилка завантаження</div>`;return;}
+  const{data,error}=await sb.from('trips')
+    .select('*')
+    .eq('trip_date',ds)
+    .eq('is_active',true)
+    .order('trip_time');
+  if(error){
+    console.error('Load trips error:',error);
+    list.innerHTML=`<div style="padding:24px;text-align:center;color:var(--red)">Помилка: ${error.message}</div>`;
+    return;
+  }
   if(!data||!data.length){
     list.innerHTML=`<div class="empty-state"><div class="ei">📍</div><div class="et">На цю дату рейсів немає</div><div class="es">Спробуйте обрати іншу дату</div></div>`;
     return;
@@ -997,13 +1005,42 @@ function showAS(s){
 }
 
 async function createTrip(){
+  if(!CP||CP.role!=='admin'){toast('Немає прав','err');return;}
   const from=v('nt-from'),to=v('nt-to'),date=v('nt-date'),time=v('nt-time');
   const price=v('nt-price'),seats=v('nt-seats'),driver=v('nt-driver'),phone=v('nt-phone'),contact=v('nt-contact');
-  if(!from||!to||!date||!time||!price||!seats||!driver||!phone){toast('Заповніть обов\'язкові поля','err');return;}
+  if(!from||!to||!date||!time||!price||!seats||!driver||!phone){
+    toast('Заповніть всі обов\'язкові поля','err');
+    return;
+  }
   const s=parseInt(seats);
-  const{error}=await sb.from('trips').insert({from_city:from,to_city:to,trip_date:date,trip_time:time,price:parseFloat(price),total_seats:s,available_seats:s,driver_name:driver,driver_phone:phone,driver_contact:contact});
-  if(error){toast('Помилка: '+error.message,'err');return;}
-  toast('✅ Рейс створено!','ok');showAS('trips');loadAT();
+  const insertData={
+    from_city:from,
+    to_city:to,
+    trip_date:date,
+    trip_time:time,
+    price:parseFloat(price),
+    total_seats:s,
+    available_seats:s,
+    driver_name:driver,
+    driver_phone:phone,
+    driver_contact:contact||null,
+    is_active:true
+  };
+  const{data,error}=await sb.from('trips').insert(insertData).select();
+  if(error){
+    toast('Помилка: '+error.message,'err');
+    console.error('Trip creation error:',error);
+    return;
+  }
+  toast('✅ Рейс створено!','ok');
+  // очищаємо форму
+  ['nt-from','nt-to','nt-date','nt-time','nt-price','nt-driver','nt-phone','nt-contact'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.value='';
+  });
+  document.getElementById('nt-seats').value='4';
+  showAS('trips');
+  await loadAT();
 }
 
 async function delTrip(id){
