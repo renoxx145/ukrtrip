@@ -988,17 +988,6 @@ function updateHeader(){
     if(rw)rw.style.display='none';
   }
 }
-    
-    const rw=document.getElementById('rv-write');
-    if(rw)rw.style.display='block';
-  }else{
-    hr.innerHTML=`<button class="btn-login" onclick="openAuth('login')">Увійти</button><button class="btn-reg" onclick="openAuth('register')">Реєстрація</button>`;
-    const oldAdm=document.querySelector('.nav-btn[data-p="admin"]');
-    if(oldAdm)oldAdm.remove();
-    const rw=document.getElementById('rv-write');
-    if(rw)rw.style.display='none';
-  }
-}
 
 // ============ CABINET ============
 async function loadCabinet(){
