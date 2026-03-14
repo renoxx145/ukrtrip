@@ -1121,7 +1121,7 @@ function sendMsg(){
 // ============ ADMIN ============
 async function loadAdmin(){
   if(!CP||CP.role!=='admin'){go('home');toast('Доступ заборонено','err');return;}
-  await Promise.all([loadAT(),loadAC(),loadAR(),loadAU()]);
+  await Promise.all([loadAT(),loadAC(),loadAR(),loadAU(),loadOrders()]);
 }
 
 async function loadAT(){
