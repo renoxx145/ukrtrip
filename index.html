@@ -655,21 +655,32 @@ const DUK=['НЕД','ПОН','ВІВ','СЕР','ЧТВ','ПТН','СУБ'];
 async function init(){
   fillCities();
   buildStrip();
-  const{data:{session}}=await sb.auth.getSession();
-  if(session){CU=session.user;await loadProfile();}
+  try{
+    const{data:{session}}=await sb.auth.getSession();
+    if(session){CU=session.user;await loadProfile();}
+  }catch(e){
+    console.error('init error:',e);
+  }
   updateHeader();
   sb.auth.onAuthStateChange(async(e,s)=>{
-    if(s){CU=s.user;await loadProfile();updateHeader();
+    if(s){
+      CU=s.user;
+      await loadProfile();
+      updateHeader();
       if(CP&&!CP.full_name)document.getElementById('name-ov').classList.add('open');
-    }else{CU=null;CP=null;updateHeader();}
+    }else{
+      CU=null;CP=null;updateHeader();
+    }
   });
-  await loadHome();
+  try{await loadHome();}catch(e){console.error('loadHome error:',e);}
   hideLoad();
-  const today=new Date();
-  selectDate(fd(today));
+  selectDate(fd(new Date()));
 }
 
-function hideLoad(){const e=document.getElementById('app-loading');e.style.opacity='0';setTimeout(()=>e.style.display='none',400);}
+function hideLoad(){
+  const e=document.getElementById('app-loading');
+  if(e){e.style.opacity='0';setTimeout(()=>e.style.display='none',400);}
+}
 
 // ============ NAV ============
 function go(p){
@@ -921,20 +932,33 @@ async function registerEmail(){
 
 async function loadProfile(){
   if(!CU)return;
-  const{data}=await sb.from('users').select('*').eq('id',CU.id).single();
-  if(data){
-    CP=data;
-  } else {
-    const name=CU.user_metadata?.full_name||'';
-    const avatar=CU.user_metadata?.avatar_url||'';
-    const{data:newUser}=await sb.from('users')
-      .insert({id:CU.id,email:CU.email,full_name:name,avatar_url:avatar,role:'user'})
-      .select()
-      .single();
-    CP=newUser||{id:CU.id,email:CU.email,full_name:name,role:'user'};
-    if(!name)document.getElementById('name-ov').classList.add('open');
+  try{
+    const{data,error}=await sb.from('users').select('*').eq('id',CU.id).single();
+    if(error&&error.code!=='PGRST116'){
+      console.error('loadProfile error:',error);
+      CP={id:CU.id,email:CU.email,full_name:CU.user_metadata?.full_name||'',role:'user'};
+      return;
+    }
+    if(data){
+      CP=data;
+    }else{
+      const name=CU.user_metadata?.full_name||'';
+      const avatar=CU.user_metadata?.avatar_url||'';
+      const{data:newUser}=await sb.from('users')
+        .insert({id:CU.id,email:CU.email,full_name:name,avatar_url:avatar,role:'user'})
+        .select().single();
+      CP=newUser||{id:CU.id,email:CU.email,full_name:name,role:'user'};
+      if(!name)document.getElementById('name-ov').classList.add('open');
+    }
+    if(CP?.is_banned){
+      toast('Ваш акаунт заблоковано','err');
+      await sb.auth.signOut();
+      return;
+    }
+  }catch(e){
+    console.error('loadProfile catch:',e);
+    CP={id:CU.id,email:CU.email,full_name:'',role:'user'};
   }
-  if(CP?.is_banned){toast('Ваш акаунт заблоковано','err');await sb.auth.signOut();}
 }
 
 async function saveName(){
