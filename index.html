@@ -1227,19 +1227,25 @@ async function createTrip(){
     driver_contact:contact||null,
     is_active:true
   };
-    const{data,error}=await sb.from('trips').insert(insertData).select().single();
+  const{error}=await sb.from('trips').insert(insertData);
   if(error){
     toast('Помилка: '+error.message,'err');
     console.error('Trip creation error:',error);
     return;
   }
   toast('✅ Рейс створено!','ok');
-  // очищаємо форму
-  ['nt-from','nt-to','nt-date','nt-time','nt-price','nt-driver','nt-phone','nt-contact'].forEach(id=>{
+  // очищаємо текстові поля
+  ['nt-date','nt-price','nt-driver','nt-phone','nt-contact'].forEach(id=>{
     const el=document.getElementById(id);
     if(el)el.value='';
   });
   document.getElementById('nt-seats').value='4';
+  document.getElementById('nt-time').value='08:00';
+  // скидаємо селекти на перший варіант
+  const selFrom=document.getElementById('nt-from');
+  const selTo=document.getElementById('nt-to');
+  if(selFrom)selFrom.selectedIndex=0;
+  if(selTo)selTo.selectedIndex=0;
   showAS('trips');
   await loadAT();
 }
