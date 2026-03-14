@@ -1196,7 +1196,7 @@ async function createTrip(){
     driver_contact:contact||null,
     is_active:true
   };
-  const{data,error}=await sb.from('trips').insert(insertData).select();
+    const{data,error}=await sb.from('trips').insert(insertData).select().single();
   if(error){
     toast('Помилка: '+error.message,'err');
     console.error('Trip creation error:',error);
