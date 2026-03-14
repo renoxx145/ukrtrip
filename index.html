@@ -281,6 +281,7 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
   <div class="mob-link" onclick="go('info');closeMob()">ℹ️ Інформація</div>
   <div class="mob-link" onclick="go('reviews');closeMob()">⭐ Відгуки</div>
   <div class="mob-link" onclick="go('contact');closeMob()">📞 Зв'язок</div>
+  <div class="mob-link" id="mob-admin-btn" onclick="go('admin');closeMob()" style="display:none">⚙️ Адмін</div>
   <div style="margin-top:12px;display:flex;gap:8px">
     <button class="btn btn-secondary btn-full" onclick="openAuth('login');closeMob()">Увійти</button>
     <button class="btn btn-primary btn-full" onclick="openAuth('register');closeMob()">Реєстрація</button>
@@ -974,16 +975,19 @@ async function signOut(){await sb.auth.signOut();CU=null;CP=null;updateHeader();
 function updateHeader(){
   const hr=document.getElementById('hdr-right');
   const admBtn=document.getElementById('admin-nav-btn');
+  const mobAdmBtn=document.getElementById('mob-admin-btn');
   if(CU&&CP){
     const l=(CP.full_name||CP.email||'U')[0].toUpperCase();
     const av=CP.avatar_url?`<img src="${esc(CP.avatar_url)}" alt="">`:l;
     hr.innerHTML=`<div class="user-chip" onclick="go('cabinet')"><div class="user-ava">${av}</div><span style="font-size:13px;font-weight:500">${esc(CP.full_name||CP.email||'')}</span></div>`;
     if(admBtn)admBtn.style.display=CP.role==='admin'?'block':'none';
+    if(mobAdmBtn)mobAdmBtn.style.display=CP.role==='admin'?'block':'none';
     const rw=document.getElementById('rv-write');
     if(rw)rw.style.display='block';
   }else{
     hr.innerHTML=`<button class="btn-login" onclick="openAuth('login')">Увійти</button><button class="btn-reg" onclick="openAuth('register')">Реєстрація</button>`;
     if(admBtn)admBtn.style.display='none';
+    if(mobAdmBtn)mobAdmBtn.style.display='none';
     const rw=document.getElementById('rv-write');
     if(rw)rw.style.display='none';
   }
@@ -1329,6 +1333,9 @@ function renderOrders(list){
       :o.status==='rejected'
       ?`<span class="badge b-r">Відхилено</span>`
       :`<span class="badge b-p">На розгляді</span>`;
+    const kickBtn=o.type==='trip'&&o.status==='confirmed'
+      ?`<button class="btn btn-danger btn-sm" style="margin-top:8px" onclick="kickFromOrders('${o.id}')">🚫 Кікнути з рейсу</button>`
+      :'';
     return`<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:flex;gap:16px;align-items:flex-start">
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
@@ -1346,6 +1353,7 @@ function renderOrders(list){
             <div style="color:var(--text3)">✉️ ${esc(u?.email||'—')}</div>
           </div>
         </div>
+        ${kickBtn}
       </div>
       <div style="font-size:11px;color:var(--text3);white-space:nowrap">${fdu(o.date?.slice(0,10))}</div>
     </div>`;
@@ -1364,6 +1372,15 @@ function filterOrders(type){
   else renderOrders(allOrders.filter(o=>o.type==='cargo'));
 }
 
+async function kickFromOrders(bookingId){
+  if(!confirm('Скасувати бронювання цього пасажира і звільнити місця?'))return;
+  const{error}=await sb.from('bookings').update({status:'cancelled'}).eq('id',bookingId);
+  if(error){toast('Помилка: '+error.message,'err');return;}
+  toast('✅ Пасажира кікнуто, місця звільнено','ok');
+  await loadOrders();
+  await loadAT();
+}
+  
 // ============ CITIES ============
 function fillCities(){
   ['c-from','c-to','nt-from','nt-to'].forEach(id=>{
