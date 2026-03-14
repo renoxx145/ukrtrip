@@ -488,14 +488,19 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
         <div class="csec" id="cs-hist"><div style="font-size:16px;font-weight:700;margin-bottom:14px">Історія поїздок</div><div id="hist-list"></div></div>
         <div class="csec" id="cs-cargo"><div style="font-size:16px;font-weight:700;margin-bottom:14px">Мої заявки на вантаж</div><div id="cab-cargo"></div></div>
         <div class="csec" id="cs-settings">
-          <div style="font-size:16px;font-weight:700;margin-bottom:16px">Налаштування</div>
-          <div class="card" style="max-width:420px">
-            <div class="fg"><label class="fl">ПІБ</label><input type="text" class="fi" id="set-name"></div>
-            <button class="btn btn-primary" onclick="saveProfile()">Зберегти</button>
-          </div>
-        </div>
-      </div>
+  <div style="font-size:16px;font-weight:700;margin-bottom:16px">Налаштування</div>
+  <div class="card" style="max-width:420px">
+    <div class="fg"><label class="fl">ПІБ</label><input type="text" class="fi" id="set-name"></div>
+    <div class="fg">
+      <label class="fl">Номер телефону</label>
+      <input type="tel" class="fi" id="set-phone" placeholder="+380...">
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Щоб з вами зв'язався адмін</div>
     </div>
+    <div class="fg">
+      <label class="fl">Telegram</label>
+      <input type="text" class="fi" id="set-telegram" placeholder="@username">
+    </div>
+    <button class="btn btn-primary" onclick="saveProfile()">Зберегти</button>
   </div>
 </div>
 
@@ -546,9 +551,11 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
           <div class="tw"><table class="dt"><thead><tr><th>Маршрут</th><th>Дата</th><th>Опис</th><th>Статус</th><th>Дії</th></tr></thead><tbody id="adm-cargo"></tbody></table></div>
         </div>
         <div class="asec" id="as-reviews">
-          <div style="font-size:16px;font-weight:700;margin-bottom:14px">Відгуки</div>
-          <div class="tw"><table class="dt"><thead><tr><th>Автор</th><th>Рейтинг</th><th>Текст</th><th>Видимий</th><th>Дії</th></tr></thead><tbody id="adm-rv"></tbody></table></div>
-        </div>
+  <div style="font-size:16px;font-weight:700;margin-bottom:14px">Відгуки</div>
+  <div class="tw"><table class="dt"><thead><tr>
+    <th>Автор</th><th>Рейтинг</th><th>Текст</th><th>Відповідь</th><th>Видимий</th><th>Дії</th>
+  </tr></thead><tbody id="adm-rv"></tbody></table></div>
+</div>
         <div class="asec" id="as-users">
           <div style="font-size:16px;font-weight:700;margin-bottom:14px">Користувачі</div>
           <div class="tw"><table class="dt"><thead><tr><th>ПІБ</th><th>Email</th><th>Роль</th><th>Статус</th><th>Дії</th></tr></thead><tbody id="adm-users"></tbody></table></div>
@@ -947,20 +954,69 @@ async function loadCabinet(){
   if(!CP)return;
   const av=document.getElementById('cab-ava');
   if(av){av.innerHTML=CP.avatar_url?`<img src="${esc(CP.avatar_url)}" alt="">`:((CP.full_name||'U')[0].toUpperCase());}
-  setT('cab-name',CP.full_name||'—');setT('cab-email',CP.email||'—');setT('cab-role',CP.role||'user');
+  setT('cab-name',CP.full_name||'—');
+  setT('cab-email',CP.email||'—');
+  setT('cab-role',CP.role||'user');
   const si=document.getElementById('set-name');if(si)si.value=CP.full_name||'';
+  const sp=document.getElementById('set-phone');if(sp)sp.value=CP.phone||'';
+  const st=document.getElementById('set-telegram');if(st)st.value=CP.telegram||'';
 
-  const{data:bks}=await sb.from('bookings').select('*,trips(*)').eq('user_id',CU.id).eq('status','confirmed').order('created_at',{ascending:false});
+  const{data:bks}=await sb.from('bookings')
+    .select('*,trips(*)')
+    .eq('user_id',CU.id)
+    .eq('status','confirmed')
+    .order('created_at',{ascending:false});
+
   const bl=document.getElementById('bk-list');
-  if(bl)bl.innerHTML=bks?.length?bks.map(b=>{const t=b.trips;if(!t)return'';return`<div class="bk-card"><div style="flex:1"><div style="font-weight:700;margin-bottom:4px">${esc(t.from_city)} → ${esc(t.to_city)}</div><div style="font-size:12px;color:var(--text2)">${fdu(t.trip_date)} · ${t.trip_time?.slice(0,5)} · ${t.price} грн</div></div><span class="bst bst-ok">Підтверджено</span><button class="btn btn-danger btn-sm" onclick="cancelBk('${b.id}')">Скасувати</button></div>`;}).join(''):emptyEl('🎫','Немає активних бронювань','Забронюйте рейс на сторінці Рейси');
+  if(bl)bl.innerHTML=bks?.length
+    ? bks.map(b=>{
+        const t=b.trips;if(!t)return'';
+        return`<div class="bk-card">
+          <div style="flex:1">
+            <div style="font-weight:700;margin-bottom:4px">${esc(t.from_city)} → ${esc(t.to_city)}</div>
+            <div style="font-size:12px;color:var(--text2)">${fdu(t.trip_date)} · ${t.trip_time?.slice(0,5)} · ${b.seats_booked} місць · ${b.seats_booked*t.price} грн</div>
+          </div>
+          <span class="bst bst-ok">Підтверджено</span>
+          <button class="btn btn-danger btn-sm" onclick="cancelBk('${b.id}')">Скасувати</button>
+        </div>`;
+      }).join('')
+    : emptyEl('🎫','Немає активних бронювань','Забронюйте рейс на сторінці Рейси');
 
-  const{data:hist}=await sb.from('bookings').select('*,trips(*)').eq('user_id',CU.id).eq('status','cancelled').order('created_at',{ascending:false});
+  const{data:hist}=await sb.from('bookings')
+    .select('*,trips(*)')
+    .eq('user_id',CU.id)
+    .eq('status','cancelled')
+    .order('created_at',{ascending:false});
+
   const hl=document.getElementById('hist-list');
-  if(hl)hl.innerHTML=hist?.length?hist.map(b=>{const t=b.trips;if(!t)return'';return`<div class="bk-card"><div style="flex:1"><div style="font-weight:700;margin-bottom:4px">${esc(t.from_city)} → ${esc(t.to_city)}</div><div style="font-size:12px;color:var(--text2)">${fdu(t.trip_date)}</div></div><span class="bst bst-no">Скасовано</span></div>`;}).join(''):emptyEl('📋','Немає скасованих поїздок','');
+  if(hl)hl.innerHTML=hist?.length
+    ? hist.map(b=>{
+        const t=b.trips;if(!t)return'';
+        return`<div class="bk-card">
+          <div style="flex:1">
+            <div style="font-weight:700;margin-bottom:4px">${esc(t.from_city)} → ${esc(t.to_city)}</div>
+            <div style="font-size:12px;color:var(--text2)">${fdu(t.trip_date)}</div>
+          </div>
+          <span class="bst bst-no">Скасовано</span>
+        </div>`;
+      }).join('')
+    : emptyEl('📋','Немає скасованих поїздок','');
 
-  const{data:cargo}=await sb.from('cargo_requests').select('*').eq('user_id',CU.id).order('created_at',{ascending:false});
+  const{data:cargo}=await sb.from('cargo_requests')
+    .select('*')
+    .eq('user_id',CU.id)
+    .order('created_at',{ascending:false});
+
   const cc=document.getElementById('cab-cargo');
-  if(cc)cc.innerHTML=cargo?.length?cargo.map(c=>`<div class="bk-card"><div style="flex:1"><div style="font-weight:700;font-size:13px">${esc(c.from_city)} → ${esc(c.to_city)}</div><div style="font-size:11px;color:var(--text2);margin-top:3px">${fdu(c.cargo_date)}</div></div><span class="badge ${sbg(c.status)}">${sbl(c.status)}</span></div>`).join(''):emptyEl('📦','Заявок немає','');
+  if(cc)cc.innerHTML=cargo?.length
+    ? cargo.map(c=>`<div class="bk-card">
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:13px">${esc(c.from_city)} → ${esc(c.to_city)}</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:3px">${fdu(c.cargo_date)}</div>
+        </div>
+        <span class="badge ${sbg(c.status)}">${sbl(c.status)}</span>
+      </div>`).join('')
+    : emptyEl('📦','Заявок немає','');
 }
 
 async function cancelBk(id){
@@ -978,10 +1034,15 @@ function showCS(s){
 }
 
 async function saveProfile(){
-  const name=v('set-name');if(!name){toast('Введіть ПІБ','err');return;}
-  const{error}=await sb.from('users').update({full_name:name}).eq('id',CU.id);
+  const name=v('set-name'),phone=v('set-phone'),telegram=v('set-telegram');
+  if(!name){toast('Введіть ПІБ','err');return;}
+  const{error}=await sb.from('users')
+    .update({full_name:name,phone:phone||null,telegram:telegram||null})
+    .eq('id',CU.id);
   if(error){toast('Помилка','err');return;}
-  CP.full_name=name;updateHeader();setT('cab-name',name);toast('✅ Збережено','ok');
+  CP.full_name=name;CP.phone=phone;CP.telegram=telegram;
+  updateHeader();setT('cab-name',name);
+  toast('✅ Збережено','ok');
 }
 
 async function uploadAva(inp){
@@ -1024,11 +1085,29 @@ function setStars(n){
 async function loadReviews(){
   const con=document.getElementById('rv-con');if(!con)return;
   const{data}=await sb.from('reviews').select('*,users(full_name,avatar_url)').eq('is_visible',true).order('created_at',{ascending:false});
-  if(!data||!data.length){con.innerHTML=`<div style="grid-column:1/-1;padding:60px 24px;text-align:center"><div style="font-size:48px;margin-bottom:14px;color:var(--text3)">⭐</div><div style="font-size:16px;font-weight:600">Відгуків ще немає</div><div style="font-size:14px;color:var(--text2);margin-top:6px">Будьте першим!</div></div>`;return;}
+  if(!data||!data.length){
+    con.innerHTML=`<div style="grid-column:1/-1;padding:60px 24px;text-align:center"><div style="font-size:48px;margin-bottom:14px;color:var(--text3)">⭐</div><div style="font-size:16px;font-weight:600">Відгуків ще немає</div><div style="font-size:14px;color:var(--text2);margin-top:6px">Будьте першим!</div></div>`;
+    return;
+  }
   con.innerHTML=data.map(r=>{
     const u=r.users,l=(u?.full_name||'U')[0].toUpperCase();
     const av=u?.avatar_url?`<img src="${esc(u.avatar_url)}" alt="">`:l;
-    return`<div class="rv-card"><div class="rv-head"><div class="rv-ava">${av}</div><div><div style="font-weight:600;font-size:13px">${esc(u?.full_name||'Анонім')}</div><div style="font-size:11px;color:var(--text3);margin-top:2px">${fdu(r.created_at?.slice(0,10))}</div></div></div><div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><div style="font-size:13px;color:var(--text2);margin-top:8px;line-height:1.65">${esc(r.text)}</div></div>`;
+    return`<div class="rv-card">
+      <div class="rv-head">
+        <div class="rv-ava">${av}</div>
+        <div>
+          <div style="font-weight:600;font-size:13px">${esc(u?.full_name||'Анонім')}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">${fdu(r.created_at?.slice(0,10))}</div>
+        </div>
+      </div>
+      <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:8px;line-height:1.65">${esc(r.text)}</div>
+      ${r.admin_reply?`
+        <div style="margin-top:12px;padding:10px 12px;background:rgba(59,130,246,.07);border-left:3px solid var(--accent);border-radius:0 var(--r2) var(--r2) 0">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px">✅ ВІДПОВІДЬ АДМІНА</div>
+          <div style="font-size:13px;color:var(--text2)">${esc(r.admin_reply)}</div>
+        </div>`:''}
+    </div>`;
   }).join('');
 }
 
@@ -1059,7 +1138,23 @@ async function loadAdmin(){
 async function loadAT(){
   const{data}=await sb.from('trips').select('*').order('trip_date').order('trip_time');
   const tb=document.getElementById('adm-trips');if(!tb)return;
-  tb.innerHTML=data?.map(t=>`<tr><td><strong>${esc(t.from_city)}</strong> → <strong>${esc(t.to_city)}</strong></td><td>${fdu(t.trip_date)}</td><td>${t.trip_time?.slice(0,5)}</td><td>${t.price} грн</td><td>${t.available_seats}/${t.total_seats}</td><td><button class="btn btn-secondary btn-sm" onclick="openEdit('${t.id}')">✏️</button><button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="delTrip('${t.id}')">🗑️</button></td></tr>`).join('')||'<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px">Немає</td></tr>';
+  if(!data||!data.length){
+    tb.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text2);padding:24px">Немає рейсів</td></tr>';
+    return;
+  }
+  tb.innerHTML=data.map(t=>`
+    <tr>
+      <td><strong>${esc(t.from_city)}</strong> → <strong>${esc(t.to_city)}</strong></td>
+      <td>${fdu(t.trip_date)}</td>
+      <td>${t.trip_time?.slice(0,5)}</td>
+      <td>${t.price} грн</td>
+      <td>${t.available_seats}/${t.total_seats}</td>
+      <td>
+        <button class="btn btn-secondary btn-sm" onclick="openTripPassengers('${t.id}','${esc(t.from_city)}','${esc(t.to_city)}','${t.trip_date}')">👥 Пасажири</button>
+        <button class="btn btn-secondary btn-sm" style="margin-left:4px" onclick="openEdit('${t.id}')">✏️</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="delTrip('${t.id}')">🗑️</button>
+      </td>
+    </tr>`).join('');
 }
 
 async function loadAC(){
@@ -1196,6 +1291,165 @@ function emptyEl(ico,title,sub){return`<div style="padding:32px 16px;text-align:
 function sbg(s){if(s==='confirmed')return'b-c';if(s==='rejected')return'b-r';return'b-p';}
 function sbl(s){if(s==='confirmed')return'Підтверджено';if(s==='rejected')return'Відхилено';return'На розгляді';}
 
+// ============ ADMIN — PASSENGERS MODAL ============
+async function openTripPassengers(tripId, from, to, date){
+  // створюємо модалку якщо не існує
+  let modal=document.getElementById('passengers-ov');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.className='overlay';modal.id='passengers-ov';
+    modal.onclick=function(e){if(e.target===modal)modal.classList.remove('open')};
+    modal.innerHTML=`<div class="modal modal-wide" style="max-width:700px">
+      <div class="mh">
+        <div class="mt" id="pass-title">Пасажири</div>
+        <button class="mx" onclick="document.getElementById('passengers-ov').classList.remove('open')">✕</button>
+      </div>
+      <div id="pass-content"></div>
+    </div>`;
+    document.body.appendChild(modal);
+  }
+
+  setT('pass-title',`Пасажири: ${from} → ${to} · ${fdu(date)}`);
+  document.getElementById('pass-content').innerHTML=`<div style="padding:24px;text-align:center;color:var(--text2)">Завантаження...</div>`;
+  modal.classList.add('open');
+
+  const{data:bookings}=await sb.from('bookings')
+    .select('*,users(id,full_name,email,phone,telegram,avatar_url,is_banned)')
+    .eq('trip_id',tripId)
+    .eq('status','confirmed')
+    .order('created_at');
+
+  if(!bookings||!bookings.length){
+    document.getElementById('pass-content').innerHTML=`<div style="padding:40px;text-align:center;color:var(--text2)">Бронювань ще немає</div>`;
+    return;
+  }
+
+  const totalSeats=bookings.reduce((s,b)=>s+b.seats_booked,0);
+
+  document.getElementById('pass-content').innerHTML=`
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;margin-bottom:16px;display:flex;gap:24px;font-size:13px">
+      <span>👥 Всього бронювань: <strong>${bookings.length}</strong></span>
+      <span>💺 Зайнято місць: <strong>${totalSeats}</strong></span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${bookings.map(b=>{
+        const u=b.users;if(!u)return'';
+        const letter=(u.full_name||'U')[0].toUpperCase();
+        const av=u.avatar_url?`<img src="${esc(u.avatar_url)}" alt="">`:letter;
+        return`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:14px">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);overflow:hidden;flex-shrink:0">${av}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:700;font-size:14px;margin-bottom:4px">${esc(u.full_name||'—')}</div>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--text2)">
+              <span>✉️ ${esc(u.email||'—')}</span>
+              ${u.phone?`<span>📱 ${esc(u.phone)}</span>`:'<span style="color:var(--text3)">📱 не вказано</span>'}
+              ${u.telegram?`<span>💬 ${esc(u.telegram)}</span>`:'<span style="color:var(--text3)">💬 не вказано</span>'}
+            </div>
+            <div style="margin-top:5px;font-size:12px">
+              <span style="background:rgba(59,130,246,.12);color:var(--accent);padding:2px 8px;border-radius:20px;font-weight:600">💺 ${b.seats_booked} місць</span>
+              <span style="color:var(--text2);margin-left:8px">Сума: ${b.seats_booked*0} грн</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+            <button class="btn btn-danger btn-sm" onclick="kickFromTrip('${b.id}','${tripId}')">🚫 Відмінити</button>
+            <button class="btn btn-danger btn-sm" style="background:rgba(239,68,68,.2)" onclick="banUser('${u.id}')">⛔ Бан</button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+async function kickFromTrip(bookingId, tripId){
+  if(!confirm('Скасувати бронювання цього пасажира?'))return;
+  const{error}=await sb.from('bookings').update({status:'cancelled'}).eq('id',bookingId);
+  if(error){toast('Помилка','err');return;}
+  toast('✅ Бронювання скасовано','ok');
+  // оновлюємо список
+  const modal=document.getElementById('passengers-ov');
+  if(modal){
+    const title=document.getElementById('pass-title').textContent;
+    // просто перезавантажуємо
+    const btn=modal.querySelector(`button[onclick*="${bookingId}"]`);
+    if(btn){const row=btn.closest('div[style*="flex:1"]')?.parentElement;if(row)row.remove();}
+  }
+  loadAT();
+}
+
+async function banUser(userId){
+  if(!confirm('Заблокувати цього користувача?'))return;
+  const{error}=await sb.from('users').update({is_banned:true}).eq('id',userId);
+  if(error){toast('Помилка','err');return;}
+  toast('✅ Користувача заблоковано','ok');
+  loadAU();
+}
+
+// ============ ADMIN — REPLY TO REVIEWS ============
+async function loadAR(){
+  const{data}=await sb.from('reviews')
+    .select('*,users(full_name)')
+    .order('created_at',{ascending:false});
+  const tb=document.getElementById('adm-rv');if(!tb)return;
+  tb.innerHTML=data?.map(r=>`
+    <tr>
+      <td>${esc(r.users?.full_name||'—')}</td>
+      <td>${'★'.repeat(r.rating)}</td>
+      <td style="max-width:160px">${esc(r.text?.slice(0,60))}...</td>
+      <td>${r.admin_reply
+        ? `<span style="color:var(--green);font-size:12px">✅ ${esc(r.admin_reply.slice(0,40))}...</span>`
+        : '<span style="color:var(--text3);font-size:12px">Немає</span>'}</td>
+      <td>${r.is_visible?'✅':'❌'}</td>
+      <td>
+        <button class="btn btn-secondary btn-sm" onclick="openReplyModal('${r.id}','${esc(r.admin_reply||'')}')">💬 Відповісти</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="delRv('${r.id}')">🗑️</button>
+        <button class="btn btn-secondary btn-sm" style="margin-left:4px" onclick="togRv('${r.id}',${r.is_visible})">👁️</button>
+      </td>
+    </tr>`).join('')
+  ||'<tr><td colspan="6" style="text-align:center;padding:24px">Немає</td></tr>';
+}
+
+function openReplyModal(reviewId, currentReply){
+  let modal=document.getElementById('reply-ov');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.className='overlay';modal.id='reply-ov';
+    modal.onclick=function(e){if(e.target===modal)modal.classList.remove('open')};
+    modal.innerHTML=`<div class="modal">
+      <div class="mh">
+        <div class="mt">Відповідь на відгук</div>
+        <button class="mx" onclick="document.getElementById('reply-ov').classList.remove('open')">✕</button>
+      </div>
+      <div class="fg">
+        <label class="fl">Ваша відповідь</label>
+        <textarea class="fi" id="reply-text" placeholder="Напишіть відповідь..." style="min-height:100px"></textarea>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="saveReply()">✅ Зберегти відповідь</button>
+        <button class="btn btn-danger btn-sm" onclick="saveReply(true)">🗑️ Видалити відповідь</button>
+      </div>
+    </div>`;
+    document.body.appendChild(modal);
+  }
+  modal._reviewId=reviewId;
+  const ta=document.getElementById('reply-text');
+  if(ta)ta.value=currentReply||'';
+  modal.classList.add('open');
+}
+
+async function saveReply(clear=false){
+  const modal=document.getElementById('reply-ov');if(!modal)return;
+  const reviewId=modal._reviewId;
+  const text=clear?null:v('reply-text');
+  if(!clear&&!text){toast('Напишіть відповідь','err');return;}
+  const{error}=await sb.from('reviews').update({
+    admin_reply:text,
+    admin_reply_at:clear?null:new Date().toISOString()
+  }).eq('id',reviewId);
+  if(error){toast('Помилка','err');return;}
+  toast(clear?'Відповідь видалено':'✅ Відповідь збережено','ok');
+  modal.classList.remove('open');
+  loadAR();
+}
+  
 // ============ START ============
 init();
 </script>
