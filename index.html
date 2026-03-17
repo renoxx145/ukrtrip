@@ -1655,7 +1655,7 @@ async function loadAdmTripRequests(){
     <td>${r.votes_count||0} / ${r.min_people||'—'}</td>
     <td style="white-space:nowrap">
       ${r.status==='pending'?`<button class="btn btn-secondary btn-sm" onclick="openVotingSetup('${r.id}')">🗳️ На голосування</button>`:''}
-      ${r.status==='voting'?`<button class="btn btn-success btn-sm" onclick="approveRequest('${r.id}')">✅ Схвалити</button>`:''}
+      ${r.status==='voting'?`<button class="btn btn-success btn-sm" onclick="approveRequest('${r.id}')">✅ Схвалити</button> <button class="btn btn-secondary btn-sm" onclick="stopVoting('${r.id}')">⏹️ Зупинити</button>`:''}
       <button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="rejectRequest('${r.id}')">❌</button>
     </td>
   </tr>`).join('');
@@ -1702,6 +1702,23 @@ async function rejectRequest(id){
   if(error){toast('Помилка','err');return;}
   toast('Відхилено','ok');
   loadAdmTripRequests();loadRequests();
+}
+
+async function stopVoting(id){
+  if(!confirm('Зупинити голосування і повернути заявку на розгляд?'))return;
+  const{error}=await sb.from('trip_requests').update({
+    status:'pending',
+    voting_deadline:null,
+    votes_count:0,
+    min_people:2,
+    max_people:4
+  }).eq('id',id);
+  if(error){toast('Помилка','err');return;}
+  // видаляємо всі голоси за цю заявку
+  await sb.from('trip_request_votes').delete().eq('request_id',id);
+  toast('✅ Голосування зупинено','ok');
+  loadAdmTripRequests();
+  loadRequests();
 }
 
 // ============ CITIES ============
