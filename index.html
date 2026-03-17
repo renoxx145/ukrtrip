@@ -1468,24 +1468,46 @@ async function submitRequest(){
   if(!from||!to||!date||!time||!price||!people||!contact){
     toast('Заповніть всі обов\'язкові поля','err');return;
   }
-  const{count:total}=await sb.from('trip_requests').select('id',{count:'exact'}).neq('status','rejected');
-  if(total>=20){toast('Досягнуто ліміт 20 заявок','err');return;}
-  const{error}=await sb.from('trip_requests').insert({
-    user_id:CU.id,from_city:from,to_city:to,
-    trip_date:date,trip_time:time,
-    price:parseFloat(price),people_count:parseInt(people),
-    contact,comment:comment||null,status:'pending'
-  });
-  if(error){toast('Помилка: '+error.message,'err');return;}
-  toast('✅ Заявку надіслано!','ok');
-  document.getElementById('req-create-block').style.display='none';
-  document.getElementById('req-create-btn-wrap').style.display='block';
-  ['req-from','req-to','req-date','req-price','req-contact','req-comment'].forEach(id=>{
-    const e=document.getElementById(id);if(e)e.value='';
-  });
-  document.getElementById('req-people').value='1';
-  document.getElementById('req-time').value='08:00';
-  await loadRequests();
+  try{
+    const{count}=await sb.from('trip_requests')
+      .select('*',{count:'exact',head:true})
+      .not('status','eq','rejected');
+    if((count||0)>=20){
+      toast('Досягнуто ліміт 20 заявок','err');return;
+    }
+    const{error}=await sb.from('trip_requests').insert({
+      user_id:CU.id,
+      from_city:from,
+      to_city:to,
+      trip_date:date,
+      trip_time:time,
+      price:parseFloat(price),
+      people_count:parseInt(people)||1,
+      contact,
+      comment:comment||null,
+      status:'pending',
+      votes_count:0,
+      min_people:2,
+      max_people:4
+    });
+    if(error){
+      console.error('submitRequest error:',error);
+      toast('Помилка: '+error.message,'err');
+      return;
+    }
+    toast('✅ Заявку надіслано!','ok');
+    document.getElementById('req-create-block').style.display='none';
+    document.getElementById('req-create-btn-wrap').style.display='block';
+    ['req-from','req-to','req-date','req-price','req-contact','req-comment'].forEach(id=>{
+      const e=document.getElementById(id);if(e)e.value='';
+    });
+    document.getElementById('req-people').value='1';
+    document.getElementById('req-time').value='08:00';
+    await loadRequests();
+  }catch(e){
+    console.error('submitRequest catch:',e);
+    toast('Помилка: '+e.message,'err');
+  }
 }
 
 async function loadRequests(){
