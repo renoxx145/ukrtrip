@@ -280,6 +280,7 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
   <div class="mob-link" onclick="go('cargo');closeMob()">📦 Перевезення вантажу</div>
   <div class="mob-link" onclick="go('info');closeMob()">ℹ️ Інформація</div>
   <div class="mob-link" onclick="go('reviews');closeMob()">⭐ Відгуки</div>
+  <div class="mob-link" onclick="go('requests');closeMob()">🗳️ Заявки на рейси</div>
   <div class="mob-link" onclick="go('contact');closeMob()">📞 Зв'язок</div>
   <div class="mob-link" id="mob-admin-btn" onclick="go('admin');closeMob()" style="display:none">⚙️ Адмін</div>
   <div style="margin-top:12px;display:flex;gap:8px">
@@ -296,6 +297,7 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
     <button class="nav-btn" data-p="cargo" onclick="go('cargo')">Перевезення вантажу</button>
     <button class="nav-btn" data-p="info" onclick="go('info')">Інформація</button>
     <button class="nav-btn" data-p="reviews" onclick="go('reviews')">Відгуки</button>
+    <button class="nav-btn" data-p="requests" onclick="go('requests')">🗳️ Заявки на рейси</button>
     <button class="nav-btn" data-p="contact" onclick="go('contact')">Зв'язок</button>
     <button class="nav-btn" data-p="admin" id="admin-nav-btn" onclick="go('admin')" style="display:none">⚙️ Адмін</button>
   </nav>
@@ -439,6 +441,61 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
   </div>
 </div>
 
+<!-- REQUESTS -->
+<div class="page" id="page-requests">
+  <div class="page-hdr"><div class="container"><h1>🗳️ Заявки на рейси</h1><p>Створюйте заявки та голосуйте за потрібні рейси</p></div></div>
+  <div class="container section">
+    <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap">
+      <div class="card" style="flex:1;min-width:140px;text-align:center;padding:16px">
+        <div style="font-size:24px;font-weight:700;color:var(--accent)" id="req-count-total">—</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px">Всього заявок (макс. 20)</div>
+      </div>
+      <div class="card" style="flex:1;min-width:140px;text-align:center;padding:16px">
+        <div style="font-size:24px;font-weight:700;color:var(--yellow)" id="req-count-voting">—</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px">На голосуванні (макс. 10)</div>
+      </div>
+      <div class="card" style="flex:1;min-width:140px;text-align:center;padding:16px">
+        <div style="font-size:24px;font-weight:700;color:var(--green)" id="req-count-approved">—</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px">Схвалено</div>
+      </div>
+    </div>
+    <div id="req-create-block" style="display:none;margin-bottom:28px">
+      <div class="card">
+        <div style="font-size:15px;font-weight:700;margin-bottom:16px">➕ Нова заявка на рейс</div>
+        <div class="fgrid2">
+          <div class="fg"><label class="fl">Звідки</label><input type="text" class="fi" id="req-from" placeholder="Місто або село"></div>
+          <div class="fg"><label class="fl">Куди</label><input type="text" class="fi" id="req-to" placeholder="Місто або село"></div>
+        </div>
+        <div class="fgrid2">
+          <div class="fg"><label class="fl">Дата</label><input type="date" class="fi" id="req-date"></div>
+          <div class="fg"><label class="fl">Час</label><input type="time" class="fi" id="req-time" value="08:00"></div>
+        </div>
+        <div class="fgrid2">
+          <div class="fg"><label class="fl">Готовий заплатити (грн)</label><input type="number" class="fi" id="req-price" placeholder="300"></div>
+          <div class="fg"><label class="fl">Кількість людей</label><input type="number" class="fi" id="req-people" placeholder="1" value="1" min="1"></div>
+        </div>
+        <div class="fg"><label class="fl">Контакт (телефон або Telegram)</label><input type="text" class="fi" id="req-contact" placeholder="+380... або @username"></div>
+        <div class="fg"><label class="fl">Коментар (необов'язково)</label><textarea class="fi" id="req-comment" placeholder="Додаткові побажання..."></textarea></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="submitRequest()">📤 Надіслати заявку</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('req-create-block').style.display='none';document.getElementById('req-create-btn-wrap').style.display='block'">Скасувати</button>
+        </div>
+      </div>
+    </div>
+    <div id="req-create-btn-wrap" style="margin-bottom:20px;display:flex;align-items:center;gap:12px">
+      <button class="btn btn-primary" onclick="openRequestForm()">➕ Створити заявку</button>
+      <span id="req-login-hint" style="font-size:13px;color:var(--text2);display:none">Увійдіть щоб створити заявку</span>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+      <button class="btn btn-secondary btn-sm" onclick="filterRequests('all')" id="rf-all" style="border-color:var(--accent);color:var(--accent)">Всі</button>
+      <button class="btn btn-secondary btn-sm" onclick="filterRequests('voting')" id="rf-voting">🗳️ На голосуванні</button>
+      <button class="btn btn-secondary btn-sm" onclick="filterRequests('pending')" id="rf-pending">⏳ Очікують</button>
+      <button class="btn btn-secondary btn-sm" onclick="filterRequests('approved')" id="rf-approved">✅ Схвалено</button>
+    </div>
+    <div id="requests-list"></div>
+  </div>
+</div>
+
 <!-- CONTACT -->
 <div class="page" id="page-contact">
   <div class="page-hdr"><div class="container"><h1>📞 Зв'язок</h1><p>Ми завжди готові допомогти</p></div></div>
@@ -523,6 +580,7 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
           <div class="anb" data-as="reviews" onclick="showAS('reviews')">⭐ Відгуки</div>
           <div class="anb" data-as="users" onclick="showAS('users')">👥 Користувачі</div>
           <div class="anb" data-as="orders" onclick="showAS('orders')">📋 Замовлення</div>
+          <div class="anb" data-as="trip-requests" onclick="showAS('trip-requests')">🗳️ Заявки рейсів</div>
         </div>
       </div>
       <div>
@@ -561,6 +619,12 @@ table.dt tbody tr:hover td{background:rgba(255,255,255,.015)}
           <div style="font-size:16px;font-weight:700;margin-bottom:14px">Відгуки</div>
           <div class="tw"><table class="dt"><thead><tr><th>Автор</th><th>Рейтинг</th><th>Текст</th><th>Видимий</th><th>Дії</th></tr></thead><tbody id="adm-rv"></tbody></table></div>
         </div>
+        <div class="asec" id="as-trip-requests">
+          <div style="font-size:16px;font-weight:700;margin-bottom:14px">🗳️ Заявки на рейси від користувачів</div>
+          <div class="tw"><table class="dt"><thead><tr>
+     <th>Маршрут / Клієнт</th><th>Дата</th><th>Ціна</th><th>Люди</th><th>Контакт</th><th>Статус</th><th>Голоси</th><th>Дії</th>
+      </tr></thead><tbody id="adm-trip-requests"></tbody></table></div>
+     </div>
         <div class="asec" id="as-orders">
         <div style="font-size:16px;font-weight:700;margin-bottom:14px">📋 Всі замовлення</div>
         <div style="display:flex;gap:8px;margin-bottom:16px">
@@ -693,9 +757,10 @@ function go(p){
   window.scrollTo(0,0);
   if(p==='trips')buildStrip();
   if(p==='reviews')loadReviews();
-  if(p==='cabinet')loadCabinet();
-  if(p==='admin')loadAdmin();
+  if(p==='cabinet'){if(!CU){openAuth('login');return;}loadCabinet();}
+  if(p==='admin'){if(!CP||CP.role!=='admin'){toast('Доступ заборонено','err');return;}loadAdmin();}
   if(p==='cargo')loadMyCargo();
+  if(p==='requests')loadRequests();
 }
 
 // ============ DATE STRIP ============
@@ -1152,7 +1217,7 @@ function sendMsg(){
 // ============ ADMIN ============
 async function loadAdmin(){
   if(!CP||CP.role!=='admin'){go('home');toast('Доступ заборонено','err');return;}
-  await Promise.all([loadAT(),loadAC(),loadAR(),loadAU(),loadOrders()]);
+  await Promise.all([loadAT(),loadAC(),loadAR(),loadAU(),loadOrders(),loadAdmTripRequests()]);
 }
 
 async function loadAT(){
@@ -1386,7 +1451,237 @@ async function kickFromOrders(bookingId){
   await loadOrders();
   await loadAT();
 }
-  
+
+// ============ TRIP REQUESTS ============
+let allRequests=[];
+
+function openRequestForm(){
+  if(!CU){openAuth('login');toast('Спочатку увійдіть','inf');return;}
+  document.getElementById('req-create-block').style.display='block';
+  document.getElementById('req-create-btn-wrap').style.display='none';
+}
+
+async function submitRequest(){
+  if(!CU){openAuth('login');return;}
+  const from=v('req-from'),to=v('req-to'),date=v('req-date'),time=v('req-time');
+  const price=v('req-price'),people=v('req-people'),contact=v('req-contact'),comment=v('req-comment');
+  if(!from||!to||!date||!time||!price||!people||!contact){
+    toast('Заповніть всі обов\'язкові поля','err');return;
+  }
+  const{count:total}=await sb.from('trip_requests').select('id',{count:'exact'}).neq('status','rejected');
+  if(total>=20){toast('Досягнуто ліміт 20 заявок','err');return;}
+  const{error}=await sb.from('trip_requests').insert({
+    user_id:CU.id,from_city:from,to_city:to,
+    trip_date:date,trip_time:time,
+    price:parseFloat(price),people_count:parseInt(people),
+    contact,comment:comment||null,status:'pending'
+  });
+  if(error){toast('Помилка: '+error.message,'err');return;}
+  toast('✅ Заявку надіслано!','ok');
+  document.getElementById('req-create-block').style.display='none';
+  document.getElementById('req-create-btn-wrap').style.display='block';
+  ['req-from','req-to','req-date','req-price','req-contact','req-comment'].forEach(id=>{
+    const e=document.getElementById(id);if(e)e.value='';
+  });
+  document.getElementById('req-people').value='1';
+  document.getElementById('req-time').value='08:00';
+  await loadRequests();
+}
+
+async function loadRequests(){
+  const{data}=await sb.from('trip_requests')
+    .select('*,users(full_name)')
+    .order('created_at',{ascending:false});
+  allRequests=data||[];
+
+  // автоматично відхиляємо прострочені
+  const now=new Date();
+  for(const r of allRequests){
+    if(r.status==='voting'&&r.voting_deadline&&new Date(r.voting_deadline)<now){
+      if((r.votes_count||0)<r.min_people){
+        await sb.from('trip_requests').update({status:'rejected'}).eq('id',r.id);
+        r.status='rejected';
+      }
+    }
+  }
+
+  const total=allRequests.filter(r=>r.status!=='rejected').length;
+  const voting=allRequests.filter(r=>r.status==='voting').length;
+  const approved=allRequests.filter(r=>r.status==='approved').length;
+  setT('req-count-total',total+'/20');
+  setT('req-count-voting',voting+'/10');
+  setT('req-count-approved',approved);
+
+  const hint=document.getElementById('req-login-hint');
+  if(hint)hint.style.display=CU?'none':'inline';
+
+  renderRequests(allRequests);
+}
+
+async function renderRequests(list){
+  const con=document.getElementById('requests-list');if(!con)return;
+  const visible=list.filter(r=>r.status!=='rejected');
+  if(!visible.length){
+    con.innerHTML=`<div class="empty-state"><div class="ei">🗳️</div><div class="et">Заявок немає</div><div class="es">Будьте першим хто створить заявку!</div></div>`;
+    return;
+  }
+  let myVotes=[];
+  if(CU){
+    const{data:vd}=await sb.from('trip_request_votes').select('request_id').eq('user_id',CU.id);
+    myVotes=(vd||[]).map(v=>v.request_id);
+  }
+  con.innerHTML=visible.map(r=>{
+    const statusMap={
+      pending:'<span class="badge b-p">⏳ На розгляді</span>',
+      voting:'<span class="badge" style="background:rgba(234,179,8,.12);color:#fbbf24">🗳️ Голосування</span>',
+      approved:'<span class="badge b-c">✅ Схвалено</span>',
+      rejected:'<span class="badge b-r">❌ Відхилено</span>'
+    };
+    const hasVoted=myVotes.includes(r.id);
+    const deadline=r.voting_deadline
+      ?`<div style="font-size:11px;color:var(--text3);margin-top:4px">⏰ До: ${new Date(r.voting_deadline).toLocaleDateString('uk-UA',{day:'numeric',month:'long'})}</div>`
+      :'';
+    const progress=r.status==='voting'&&r.min_people>0
+      ?`<div style="margin-top:10px">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:4px">
+            <span>Голосів: <strong>${r.votes_count||0}</strong></span>
+            <span>Мін: ${r.min_people} / Макс: ${r.max_people}</span>
+          </div>
+          <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden">
+            <div style="background:var(--accent);height:100%;border-radius:4px;width:${Math.min(100,((r.votes_count||0)/r.min_people)*100)}%;transition:width .3s"></div>
+          </div>
+        </div>`
+      :'';
+    const voteBtn=r.status==='voting'&&CU
+      ?hasVoted
+        ?`<button class="btn btn-secondary btn-sm" onclick="unvoteRequest('${r.id}')">✅ Ви проголосували (скасувати)</button>`
+        :`<button class="btn btn-primary btn-sm" onclick="voteRequest('${r.id}')">🗳️ Проголосувати</button>`
+      :r.status==='voting'&&!CU
+      ?`<button class="btn btn-secondary btn-sm" onclick="openAuth('login')">Увійдіть щоб голосувати</button>`
+      :'';
+    return`<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+            <span style="font-size:16px;font-weight:700">${esc(r.from_city)} → ${esc(r.to_city)}</span>
+            ${statusMap[r.status]||''}
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--text2);margin-bottom:8px">
+            <span>📅 ${fdu(r.trip_date)}</span>
+            <span>🕐 ${r.trip_time?.slice(0,5)}</span>
+            <span>💰 ${r.price} грн</span>
+            <span>👥 ${r.people_count} осіб</span>
+          </div>
+          <div style="font-size:13px;color:var(--text2);margin-bottom:4px">📞 ${esc(r.contact)}</div>
+          ${r.comment?`<div style="font-size:12px;color:var(--text3);margin-top:4px">${esc(r.comment)}</div>`:''}
+          ${progress}
+          ${deadline}
+        </div>
+        <div style="flex-shrink:0">${voteBtn}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterRequests(type){
+  ['all','voting','pending','approved'].forEach(t=>{
+    const b=document.getElementById('rf-'+t);
+    if(b){b.style.borderColor='';b.style.color='';}
+  });
+  const ab=document.getElementById('rf-'+type);
+  if(ab){ab.style.borderColor='var(--accent)';ab.style.color='var(--accent)';}
+  if(type==='all')renderRequests(allRequests);
+  else renderRequests(allRequests.filter(r=>r.status===type));
+}
+
+async function voteRequest(id){
+  if(!CU){openAuth('login');return;}
+  const{error}=await sb.from('trip_request_votes').insert({request_id:id,user_id:CU.id});
+  if(error){toast('Помилка','err');return;}
+  const cur=allRequests.find(r=>r.id===id);
+  await sb.from('trip_requests').update({votes_count:(cur?.votes_count||0)+1}).eq('id',id);
+  toast('✅ Голос враховано!','ok');
+  await loadRequests();
+}
+
+async function unvoteRequest(id){
+  const{error}=await sb.from('trip_request_votes').delete().eq('request_id',id).eq('user_id',CU.id);
+  if(error){toast('Помилка','err');return;}
+  const cur=allRequests.find(r=>r.id===id);
+  await sb.from('trip_requests').update({votes_count:Math.max(0,(cur?.votes_count||0)-1)}).eq('id',id);
+  toast('Голос скасовано','ok');
+  await loadRequests();
+}
+
+async function loadAdmTripRequests(){
+  const{data}=await sb.from('trip_requests')
+    .select('*,users(full_name,phone,telegram,email)')
+    .order('created_at',{ascending:false});
+  const tb=document.getElementById('adm-trip-requests');if(!tb)return;
+  if(!data||!data.length){
+    tb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text2)">Заявок немає</td></tr>';
+    return;
+  }
+  tb.innerHTML=data.map(r=>`<tr>
+    <td><strong>${esc(r.from_city)}</strong> → <strong>${esc(r.to_city)}</strong><br>
+    <small style="color:var(--text2)">${esc(r.users?.full_name||'')}</small></td>
+    <td>${fdu(r.trip_date)}<br><small style="color:var(--text2)">${r.trip_time?.slice(0,5)}</small></td>
+    <td>${r.price} грн</td>
+    <td>${r.people_count} ос.</td>
+    <td style="font-size:12px">${esc(r.contact)}</td>
+    <td><span class="badge ${r.status==='approved'?'b-c':r.status==='rejected'?'b-r':r.status==='voting'?'b-p':'b-u'}">${r.status}</span></td>
+    <td>${r.votes_count||0} / ${r.min_people||'—'}</td>
+    <td style="white-space:nowrap">
+      ${r.status==='pending'?`<button class="btn btn-secondary btn-sm" onclick="openVotingSetup('${r.id}')">🗳️ На голосування</button>`:''}
+      ${r.status==='voting'?`<button class="btn btn-success btn-sm" onclick="approveRequest('${r.id}')">✅ Схвалити</button>`:''}
+      <button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="rejectRequest('${r.id}')">❌</button>
+    </td>
+  </tr>`).join('');
+}
+
+function openVotingSetup(id){
+  const days=prompt('На скільки днів відкрити голосування?','3');
+  if(!days)return;
+  const minP=prompt('Мінімум людей для підтвердження?','2');
+  if(!minP)return;
+  const maxP=prompt('Максимум людей на рейс?','4');
+  if(!maxP)return;
+  startVoting(id,parseInt(days),parseInt(minP),parseInt(maxP));
+}
+
+async function startVoting(id,days,minP,maxP){
+  const deadline=new Date();
+  deadline.setDate(deadline.getDate()+days);
+  const{count}=await sb.from('trip_requests').select('id',{count:'exact'}).eq('status','voting');
+  if(count>=10){toast('Вже 10 заявок на голосуванні!','err');return;}
+  const{error}=await sb.from('trip_requests').update({
+    status:'voting',
+    voting_deadline:deadline.toISOString(),
+    min_people:minP,
+    max_people:maxP
+  }).eq('id',id);
+  if(error){toast('Помилка','err');return;}
+  toast('✅ Виставлено на голосування!','ok');
+  loadAdmTripRequests();
+  loadRequests();
+}
+
+async function approveRequest(id){
+  if(!confirm('Схвалити цю заявку?'))return;
+  const{error}=await sb.from('trip_requests').update({status:'approved'}).eq('id',id);
+  if(error){toast('Помилка','err');return;}
+  toast('✅ Схвалено!','ok');
+  loadAdmTripRequests();loadRequests();
+}
+
+async function rejectRequest(id){
+  if(!confirm('Відхилити цю заявку?'))return;
+  const{error}=await sb.from('trip_requests').update({status:'rejected'}).eq('id',id);
+  if(error){toast('Помилка','err');return;}
+  toast('Відхилено','ok');
+  loadAdmTripRequests();loadRequests();
+}
+
 // ============ CITIES ============
 function fillCities(){
   // поля тепер текстові, нічого заповнювати не треба
